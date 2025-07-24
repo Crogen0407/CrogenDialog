@@ -10,7 +10,7 @@ namespace Crogen.CrogenDialog
 		[field:SerializeField] public List<NodeSO> InputList { get; private set; }
 		[field:SerializeField] public List<NodeSO> OutputList { get; private set; }
 
-		[field:SerializeField] public string NodeName;
+		public abstract string GetNodeName();
 
 		public void AddInput(NodeSO node)
 		{
