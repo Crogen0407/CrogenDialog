@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Crogen.CrogenDialog
+namespace Crogen.CrogenDialogue
 {
 	[CreateAssetMenu(fileName = "CharacterSO", menuName = "Scriptable Objects/CharacterSO")]
 	public class CharacterSO : NodeSO

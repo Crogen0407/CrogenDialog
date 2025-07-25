@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Crogen.CrogenDialog
+namespace Crogen.CrogenDialogue
 {
 	// TODO : 나중에 에디터에서 만드는 걸로 바꾸기
-	[CreateAssetMenu(fileName = "NodeSO", menuName = "CrogenDialog/NodeSO")]
+	[CreateAssetMenu(fileName = "NodeSO", menuName = "CrogenDialogue/NodeSO")]
 	public abstract class NodeSO : ScriptableObject
 	{
 		[field:SerializeField] public List<NodeSO> InputList { get; private set; }
