@@ -58,7 +58,7 @@ namespace Crogen.CrogenDialogue
 			{
 				var nodeData = CrogenDialogueEditorManager.SelectedStorySO.AddNewNode(type, graphMousePos);
 
-				var nodeView = new CrogenDialogueNode(nodeData);
+				var nodeView = new CrogenDialogueNode(nodeData, CrogenDialogueEditorManager.SelectedStorySO);
 				nodeView.SetPosition(new Rect(graphMousePos, Vector2.zero));
 				_graphView.AddElement(nodeView);
 

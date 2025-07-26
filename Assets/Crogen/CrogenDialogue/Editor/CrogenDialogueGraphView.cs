@@ -28,12 +28,16 @@ namespace Crogen.CrogenDialogue.Editor
 			AddGridBackground();
 			AddStyles();
 			ShowNodeDisplay(storytellerSO);
+
+			graphViewChanged = OnGraphViewChanged;
 		}
 
 		private void AddManipulators()
 		{
 			this.AddManipulator(new ContentDragger());
 			this.AddManipulator(new ContentZoomer());
+			this.AddManipulator(new SelectionDragger());
+			this.AddManipulator(new RectangleSelector());
 		}
 
 		private void AddGridBackground()
@@ -61,10 +65,37 @@ namespace Crogen.CrogenDialogue.Editor
 		{
 			foreach (var nodeData in storytellerSO.NodeList)
 			{
-				var nodeView = new CrogenDialogueNode(nodeData);
+				var nodeView = new CrogenDialogueNode(nodeData, storytellerSO);
 				AddElement(nodeView);
 				nodeView.SetPosition(new Rect(nodeData.Position, Vector2.zero));
 			}
+		}
+
+		private GraphViewChange OnGraphViewChanged(GraphViewChange change)
+		{
+			if (change.movedElements != null)
+			{
+				foreach (var element in change.movedElements)
+				{
+					if (element is CrogenDialogueNode node)
+					{
+						node.OnMove(); // 昏力 傈贸府 流立 龋免
+					}
+				}
+			}
+
+			if (change.elementsToRemove != null)
+			{
+				foreach (var element in change.elementsToRemove)
+				{
+					if (element is CrogenDialogueNode node)
+					{
+						node.OnDelete(); // 昏力 傈贸府 流立 龋免
+					}
+				}
+			}
+
+			return change;
 		}
 	}
 }

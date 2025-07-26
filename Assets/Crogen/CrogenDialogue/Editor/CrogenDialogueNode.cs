@@ -4,20 +4,21 @@ using System.Reflection;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Crogen.CrogenDialog.Editor
 {
 	public class CrogenDialogueNode : Node
 	{
-		public NodeSO BaseNodeSO { get; private set; }
+		internal NodeSO BaseNodeSO { get; private set; }
+		internal StorytellerSO StorytellerSO { get; private set; }
 		public override string title => BaseNodeSO?.GetNodeName();
 
-		public CrogenDialogueNode(NodeSO baseNodeSO)
+		public CrogenDialogueNode(NodeSO baseNodeSO, StorytellerSO storytellerSO)
 		{
 			this.BaseNodeSO = baseNodeSO;
-			
+			this.StorytellerSO = storytellerSO;
+
 			// 메인 컨테이너
 			var container = new VisualElement();
 			container.style.paddingLeft = 8;
@@ -110,6 +111,18 @@ namespace Crogen.CrogenDialog.Editor
 						typeof(CrogenDialogueNode)));
 				}
 			}
+		}
+
+		internal void OnDelete()
+		{
+			StorytellerSO.RemoveNode(BaseNodeSO);
+		}
+
+		internal void OnMove()
+		{
+			BaseNodeSO.Position = GetPosition().position;
+
+			EditorUtility.SetDirty(StorytellerSO);
 		}
 	}
 }
