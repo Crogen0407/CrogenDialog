@@ -1,5 +1,6 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/Crogen/CrogenDialog/Editor/CrogenDialogWindow.uss?fileID=7433441132597879392&amp;guid=f3aa659ba2aa6fb4b96c0f852d49186f&amp;type=3#CrogenDialogWindow" />
-    <ui:Label text="Hello World! From UXML" />
-    <ui:Label text="Hello World! With Style" name="Label" class="custom-label" />
+    <Style src="project://database/Assets/Crogen/CrogenDialogue/Editor/CrogenDialogueEditorWindow.uss?fileID=7433441132597879392&amp;guid=f3aa659ba2aa6fb4b96c0f852d49186f&amp;type=3#CrogenDialogueEditorWindow" />
+    <TabbedView name="TabbedView" style="height: 80px;">
+        <TabButton />
+    </TabbedView>
 </ui:UXML>

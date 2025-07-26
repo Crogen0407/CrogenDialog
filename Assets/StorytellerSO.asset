@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1009571793122013382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70c450b641948df40b7c1f450036e0b8, type: 3}
+  m_Name: 278901b0791a8ed4eb23bbfdea15e168
+  m_EditorClassIdentifier: 
+  <Position>k__BackingField: {x: 500, y: 0}
+  <InputList>k__BackingField: []
+  <OutputList>k__BackingField: []
+  Name: 
+  Description: 
+  Sprite: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 400c839a9e6c5e44bad1a15fbc11fb14, type: 3}
+  m_Name: StorytellerSO
+  m_EditorClassIdentifier: 
+  <NodeList>k__BackingField:
+  - {fileID: 2204273435814525852}
+  - {fileID: -1009571793122013382}
+--- !u!114 &2204273435814525852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 378786eea99e7c14e88d4fd62f303e90, type: 3}
+  m_Name: 7511127360f736448a28f53cf4c48da0
+  m_EditorClassIdentifier: 
+  <Position>k__BackingField: {x: 0, y: 0}
+  <InputList>k__BackingField:
+  - {fileID: 0}
+  <OutputList>k__BackingField:
+  - {fileID: 0}

@@ -2,9 +2,14 @@ using UnityEngine;
 
 namespace Crogen.CrogenDialogue
 {
-	[CreateAssetMenu(fileName = "CharacterSO", menuName = "Scriptable Objects/CharacterSO")]
+	[RegisterNode]
 	public class CharacterSO : NodeSO
 	{
+		public string Name;
+		public string Description;
+		public Sprite Sprite;
+		public LayerMask layerMask;
+
 		public override string GetNodeName()
 		{
 			return "Character";

@@ -1,35 +1,56 @@
+using Crogen.CrogenDialog.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Crogen.CrogenDialogue.Editor
 {
-
 	public class CrogenDialogueEditorWindow : EditorWindow
 	{
-		[SerializeField]
-		private VisualTreeAsset m_VisualTreeAsset = default;
-
-		[MenuItem("Crogen/CrogenDialog")]
+		[MenuItem("Crogen/CrogenDialogue")]
 		public static void ShowExample()
 		{
 			CrogenDialogueEditorWindow wnd = GetWindow<CrogenDialogueEditorWindow>();
-			wnd.titleContent = new GUIContent("CrogenDialogWindow");
+			wnd.titleContent = new GUIContent("CrogenDialogueWindow");
 		}
 
 		public void CreateGUI()
 		{
-			// Each editor window contains a root VisualElement object
+			RebuildGUI();
+		}
+
+		public void RebuildGUI()
+		{
+			rootVisualElement.Clear(); // 이전 내용 제거
+
+			if (CrogenDialogueEditorManager.SelectedStorySO == null) return;
+
 			VisualElement root = rootVisualElement;
 
-			// VisualElements objects can contain other VisualElement following a tree hierarchy.
-			VisualElement label = new Label("Hello World! From C#");
-			root.Add(label);
+			AddGraphView(root, CrogenDialogueEditorManager.SelectedStorySO);
+			AddStyleSheet(root);
+		}
 
-			// Instantiate UXML
-			VisualElement labelFromUXML = m_VisualTreeAsset.Instantiate();
-			root.Add(labelFromUXML);
+		private CrogenDialogueGraphView AddGraphView(VisualElement root, StorytellerSO storytellerSO)
+		{
+			CrogenDialogueGraphView graphView = new CrogenDialogueGraphView(this, storytellerSO);
+			root.Add(graphView);
+
+			return graphView;
+		}
+
+		private StyleSheet AddStyleSheet(VisualElement root)
+		{
+			StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets\\Crogen\\CrogenDialogue\\Editor\\Resources\\CrogenDialogueVariables.uss");
+			if (styleSheet == null)
+			{
+				Debug.LogError("Fail to get style sheet.");
+				return null;
+			}
+
+			root.styleSheets.Add(styleSheet);
+
+			return styleSheet;
 		}
 	}
-
 }
