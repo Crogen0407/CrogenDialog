@@ -27,18 +27,18 @@ namespace Crogen.CrogenDialogue
 
 		public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
 		{
-			var subClasses = NodeTypeList.Get();
+			var subclasses = NodeList.Get();
 			var searchTreeEntryList = new List<SearchTreeEntry>
 			{
 				new SearchTreeGroupEntry(new GUIContent("Create Node")),
 			};
 
-			for (int i = 0; i < subClasses.Count; i++)
+			for (int i = 0; i < subclasses.Count; i++)
 			{
-				searchTreeEntryList.Add(new SearchTreeEntry(new GUIContent(subClasses[i].Name.Replace("SO", string.Empty), _icon))
+				searchTreeEntryList.Add(new SearchTreeEntry(new GUIContent(subclasses[i].Name.Replace("SO", string.Empty), _icon))
 				{
 					level = 1,
-					userData = subClasses[i]
+					userData = subclasses[i]
 				});
 			}
 
@@ -54,11 +54,11 @@ namespace Crogen.CrogenDialogue
 
 			Vector2 graphMousePos = _graphView.contentViewContainer.WorldToLocal(mousePosition);
 
-			if (entry.userData is System.Type type && type.IsSubclassOf(typeof(NodeSO)))
+			if (entry.userData is System.Type type && (type.IsSubclassOf(typeof(GeneralNodeSO)) || type == typeof(GeneralNodeSO)))
 			{
 				var nodeData = CrogenDialogueEditorManager.SelectedStorySO.AddNewNode(type, graphMousePos);
 
-				var nodeView = new CrogenDialogueNode(nodeData, CrogenDialogueEditorManager.SelectedStorySO);
+				var nodeView = new CrogenDialogueNode(nodeData, CrogenDialogueEditorManager.SelectedStorySO, _graphView);
 				nodeView.SetPosition(new Rect(graphMousePos, Vector2.zero));
 				_graphView.AddElement(nodeView);
 

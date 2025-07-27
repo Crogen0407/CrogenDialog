@@ -4,7 +4,7 @@ namespace Crogen.CrogenDialogue
 {
 	[RegisterNode]
 	[CreateAssetMenu(fileName = nameof(ValueBillboardSO), menuName = "CrogenDialogue/ValueBillboardSO")]
-	public class ValueBillboardSO : NodeSO
+	public class ValueBillboardSO : GeneralNodeSO
 	{
 		[field: SerializeField] public string ValueName { get; private set; }
 

@@ -1,23 +1,32 @@
 using Crogen.CrogenDialogue;
+using Crogen.CrogenDialogue.Editor;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.Rendering.CameraUI;
 
 namespace Crogen.CrogenDialog.Editor
 {
 	public class CrogenDialogueNode : Node
 	{
-		internal NodeSO BaseNodeSO { get; private set; }
-		internal StorytellerSO StorytellerSO { get; private set; }
+		internal GeneralNodeSO BaseNodeSO { get; private set; }
+		internal StorytellerBaseSO StorytellerSO { get; private set; }
+		private CrogenDialogueGraphView _graphView;
 		public override string title => BaseNodeSO?.GetNodeName();
 
-		public CrogenDialogueNode(NodeSO baseNodeSO, StorytellerSO storytellerSO)
+		public Port Input { get; private set; }
+		private Port[] _outputs;
+
+		public CrogenDialogueNode(GeneralNodeSO baseNodeSO, StorytellerBaseSO storytellerSO, CrogenDialogue.Editor.CrogenDialogueGraphView graphView)
 		{
 			this.BaseNodeSO = baseNodeSO;
 			this.StorytellerSO = storytellerSO;
+			this._graphView = graphView;
 
 			// 메인 컨테이너
 			var container = new VisualElement();
@@ -48,13 +57,12 @@ namespace Crogen.CrogenDialog.Editor
 			this.titleContainer.Add(title);
 			this.mainContainer.Add(container);
 
-			AddPorts();
+			_outputs = new Port[baseNodeSO.GetOutputPortCount()];
 
-			RefreshExpandedState();
-			RefreshPorts();
+			CreatePorts();
 		}
 
-		private bool IsCanRender(string propertyName, NodeSO baseNodeSO)
+		private bool IsCanRender(string propertyName, GeneralNodeSO baseNodeSO)
 		{
 			Type nodeType = baseNodeSO.GetType();
 
@@ -86,30 +94,36 @@ namespace Crogen.CrogenDialog.Editor
 			return null;
 		}
 
-		private void AddPorts()
+		private void CreatePorts()
 		{
-			if (BaseNodeSO.InputList != null && BaseNodeSO.InputList.Count != 0)
-			{
-				for (int i = 0; i < BaseNodeSO.InputList.Count; i++)
-				{
-					inputContainer.Add(
-						InstantiatePort(Orientation.Horizontal, 
-						Direction.Input,
-						Port.Capacity.Single, 
-						typeof(CrogenDialogueNode)));
-				}
-			}
+			CreateInputPort();
+			CreateOutputPort();
 
-			if (BaseNodeSO.OutputList != null && BaseNodeSO.OutputList.Count != 0)
+			RefreshPorts();
+			RefreshExpandedState();
+		}
+
+		private void CreateInputPort()
+		{
+			// Input은 하나만!
+			Input = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(PortTypes.FlowPort));
+
+			Input.name = $"{BaseNodeSO.name}_Input";
+			Input.portName = string.Empty;
+
+			inputContainer.Add(Input);
+		}
+
+		private void CreateOutputPort()
+		{
+			for (int i = 0; i < BaseNodeSO.GetOutputPortCount(); i++)
 			{
-				for (int i = 0; i < BaseNodeSO.OutputList.Count; i++)
-				{
-					outputContainer.Add(
-						InstantiatePort(Orientation.Horizontal,
-						Direction.Output,
-						Port.Capacity.Single,
-						typeof(CrogenDialogueNode)));
-				}
+				_outputs[i] = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(PortTypes.FlowPort));
+
+				_outputs[i].name = $"{BaseNodeSO.name}_Output_{i}";
+				_outputs[i].portName = BaseNodeSO.GetOutputPortsNames()[i];
+
+				outputContainer.Add(_outputs[i]);
 			}
 		}
 

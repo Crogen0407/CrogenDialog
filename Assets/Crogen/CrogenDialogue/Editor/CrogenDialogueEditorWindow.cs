@@ -31,7 +31,7 @@ namespace Crogen.CrogenDialogue.Editor
 			AddStyleSheet(root);
 		}
 
-		private CrogenDialogueGraphView AddGraphView(VisualElement root, StorytellerSO storytellerSO)
+		private CrogenDialogueGraphView AddGraphView(VisualElement root, StorytellerBaseSO storytellerSO)
 		{
 			CrogenDialogueGraphView graphView = new CrogenDialogueGraphView(this, storytellerSO);
 			root.Add(graphView);

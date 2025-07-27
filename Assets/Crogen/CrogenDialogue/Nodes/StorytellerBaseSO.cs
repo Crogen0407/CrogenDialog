@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace Crogen.CrogenDialogue
 {
-	[CreateAssetMenu(fileName = nameof(StorytellerSO), menuName = "CrogenDialogue/StorySO")]
-	public class StorytellerSO : ScriptableObject
+	[CreateAssetMenu(fileName = nameof(StorytellerBaseSO), menuName = "CrogenDialogue/StorytellerBaseSO")]
+	public class StorytellerBaseSO : ScriptableObject
 	{
-		[field:SerializeField, HideInEditorWindow] public List<NodeSO> NodeList { get; private set; }
+		[field:SerializeField, HideInEditorWindow] public List<GeneralNodeSO> NodeList { get; private set; } = new List<GeneralNodeSO>();
 
 #if UNITY_EDITOR
-		public NodeSO AddNewNode(System.Type type, Vector2 position)
+		public GeneralNodeSO AddNewNode(System.Type type, Vector2 position)
 		{
-			var nodeData = ScriptableObject.CreateInstance(type) as NodeSO;
+			var nodeData = ScriptableObject.CreateInstance(type) as GeneralNodeSO;
 			nodeData.name = UnityEditor.GUID.Generate().ToString();
 			nodeData.Position = position;
 
@@ -24,7 +24,7 @@ namespace Crogen.CrogenDialogue
 			return nodeData;
 		}
 
-		public void RemoveNode(NodeSO nodeSO)
+		public void RemoveNode(GeneralNodeSO nodeSO)
 		{
 			if (NodeList.Contains(nodeSO) == false) return;
 

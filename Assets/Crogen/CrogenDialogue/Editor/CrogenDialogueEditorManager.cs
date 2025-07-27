@@ -7,20 +7,19 @@ namespace Crogen.CrogenDialogue.Editor
     [InitializeOnLoad]
     public static class CrogenDialogueEditorManager
     {
-		public static Action<StorytellerSO> OnStorySOSelectedEvent;
-        public static StorytellerSO SelectedStorySO { get; set; }
+		public static Action<StorytellerBaseSO> OnStorySOSelectedEvent;
+        public static StorytellerBaseSO SelectedStorySO { get; set; }
 
 		// Domain reload끄면 안됨!
 		static CrogenDialogueEditorManager()
         {
-
 			Selection.selectionChanged += HandleSelectionChanged;
 			EditorApplication.quitting += UnsubscribeEvents;
 		}
 
 		private static void HandleSelectionChanged()
 		{
-			SelectedStorySO = Selection.activeObject as StorytellerSO;
+			SelectedStorySO = Selection.activeObject as StorytellerBaseSO;
 
 			// window가 열려있을 때만 Rebuild하기
 			var window = EditorWindow.HasOpenInstances<CrogenDialogueEditorWindow>()
@@ -40,7 +39,7 @@ namespace Crogen.CrogenDialogue.Editor
 		public static bool OnOpenAsset(int instanceID, int line)
 		{
 			var obj = EditorUtility.InstanceIDToObject(instanceID);
-			if (obj is StorytellerSO storySO)
+			if (obj is StorytellerBaseSO storySO)
 			{
 				// EditorWindow 열기
 				var window = EditorWindow.GetWindow<CrogenDialogueEditorWindow>();

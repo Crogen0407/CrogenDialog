@@ -2,12 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
-using UnityEngine;
 
 namespace Crogen.CrogenDialogue.Editor
 {
     [InitializeOnLoad]
-    public static class NodeTypeList
+    public static class NodeList
     {
 		private static List<Type> List { get; set; }
 
@@ -16,9 +15,9 @@ namespace Crogen.CrogenDialogue.Editor
             return List;
         }
 
-		static NodeTypeList()
+		static NodeList()
         {
-			List = GetSubclassesOf<NodeSO>();
+			List = GetSubclassesOf<GeneralNodeSO>();
 		}
 
 		private static List<Type> GetSubclassesOf<T>()

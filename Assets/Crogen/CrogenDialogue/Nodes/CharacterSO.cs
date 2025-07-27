@@ -3,12 +3,12 @@ using UnityEngine;
 namespace Crogen.CrogenDialogue
 {
 	[RegisterNode]
-	public class CharacterSO : NodeSO
+	public class CharacterSO : GeneralNodeSO
 	{
-		public string Name;
-		public string Description;
-		public Sprite Sprite;
-		public LayerMask layerMask;
+		[field: SerializeField] public string Name { get; private set; }
+		[field: SerializeField] public string Description { get; private set; }
+		[field: SerializeField] public Sprite Sprite { get; private set; }
+		[field: SerializeField] public LayerMask layerMask { get; private set; }
 
 		public override string GetNodeName()
 		{

@@ -1,8 +1,8 @@
 using Crogen.CrogenDialog.Editor;
-using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,10 +12,9 @@ namespace Crogen.CrogenDialogue.Editor
     {
 		private CrogenSearchWindow _searchWindow;
 
-		public CrogenDialogueGraphView(EditorWindow window, StorytellerSO storytellerSO)
+		public CrogenDialogueGraphView(EditorWindow window, StorytellerBaseSO storytellerSO)
         {
 			this.StretchToParentSize();
-
 			_searchWindow = ScriptableObject.CreateInstance<CrogenSearchWindow>();
 			_searchWindow.Init(this, window);
 
@@ -27,7 +26,8 @@ namespace Crogen.CrogenDialogue.Editor
 			AddManipulators();
 			AddGridBackground();
 			AddStyles();
-			ShowNodeDisplay(storytellerSO);
+			ShowNodeDisplays(storytellerSO);
+			ShowPorts();
 
 			graphViewChanged = OnGraphViewChanged;
 		}
@@ -61,11 +61,11 @@ namespace Crogen.CrogenDialogue.Editor
 			styleSheets.Add(styleSheet);
 		}
 
-		private void ShowNodeDisplay(StorytellerSO storytellerSO)
+		private void ShowNodeDisplays(StorytellerBaseSO storytellerSO)
 		{
 			foreach (var nodeData in storytellerSO.NodeList)
 			{
-				var nodeView = new CrogenDialogueNode(nodeData, storytellerSO);
+				var nodeView = new CrogenDialogueNode(nodeData, storytellerSO, this);
 				AddElement(nodeView);
 				nodeView.SetPosition(new Rect(nodeData.Position, Vector2.zero));
 			}
@@ -92,10 +92,81 @@ namespace Crogen.CrogenDialogue.Editor
 					{
 						node.OnDelete(); // 삭제 전처리 직접 호출
 					}
+
+					if (element is Edge edge)
+					{
+						CrogenDialogueNode outputNode = edge.output.node as CrogenDialogueNode;
+						CrogenDialogueNode inputNode = edge.input.node as CrogenDialogueNode;
+
+						int removeIndex = outputNode.BaseNodeSO.Connections.FindIndex(x => x.InputPortName.Equals(inputNode.Input.name));
+						Debug.Log(removeIndex);
+						outputNode.BaseNodeSO.Connections.RemoveAt(removeIndex);
+					}
+				}
+			}
+
+			if (change.edgesToCreate != null)
+			{
+				foreach (var edge in change.edgesToCreate)
+				{
+					var connectedNode = edge.output.node as CrogenDialogueNode;
+
+					connectedNode.BaseNodeSO.Connections.Add(new NodeConnectionData()
+					{
+						InputPortName = edge.input.name,
+						OutputPortName = edge.output.name,
+					});
 				}
 			}
 
 			return change;
+		}
+
+		private void ShowPorts()
+		{
+			foreach (var port in ports)
+			{
+				if (port.direction == Direction.Input) continue;
+
+				var outputPort = port;
+				var node = (outputPort.node as CrogenDialogueNode);
+
+				bool isFind = true;
+
+				for (int i = 0; i < node.BaseNodeSO.Connections.Count; i++)
+				{
+					var inputPort = ports.FirstOrDefault(x => 
+						x.name == node.BaseNodeSO.Connections[i].InputPortName &&
+						port.name == node.BaseNodeSO.Connections[i].OutputPortName
+					);
+
+					if (inputPort == null)
+					{
+						isFind = false;
+						continue;
+					}
+
+					Add(new Edge()
+					{
+						input = inputPort,
+						output = outputPort
+					});
+				}
+
+				// 연결 못했으면 Refresh안해도 됨
+				if (isFind == false)
+					continue;
+
+				node.RefreshPorts();
+				node.RefreshExpandedState();
+			}
+		}
+
+		public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
+		{
+			return ports.ToList().Where(
+				endPort => endPort.direction != startPort.direction && 
+				endPort.node != startPort.node).ToList();
 		}
 	}
 }
