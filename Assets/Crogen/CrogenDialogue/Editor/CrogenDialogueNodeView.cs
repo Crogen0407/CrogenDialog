@@ -2,17 +2,17 @@ using Crogen.CrogenDialogue;
 using Crogen.CrogenDialogue.Editor;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.Rendering.CameraUI;
 
 namespace Crogen.CrogenDialog.Editor
 {
-	public class CrogenDialogueNode : Node
+	public class CrogenDialogueNodeView : Node
 	{
 		internal GeneralNodeSO BaseNodeSO { get; private set; }
 		internal StorytellerBaseSO StorytellerSO { get; private set; }
@@ -20,9 +20,9 @@ namespace Crogen.CrogenDialog.Editor
 		public override string title => BaseNodeSO?.GetNodeName();
 
 		public Port Input { get; private set; }
-		private Port[] _outputs;
+		public Port[] Outputs { get; private set; }
 
-		public CrogenDialogueNode(GeneralNodeSO baseNodeSO, StorytellerBaseSO storytellerSO, CrogenDialogue.Editor.CrogenDialogueGraphView graphView)
+		public CrogenDialogueNodeView Initialize(GeneralNodeSO baseNodeSO, StorytellerBaseSO storytellerSO, CrogenDialogue.Editor.CrogenDialogueGraphView graphView)
 		{
 			this.BaseNodeSO = baseNodeSO;
 			this.StorytellerSO = storytellerSO;
@@ -42,7 +42,7 @@ namespace Crogen.CrogenDialog.Editor
 				do
 				{
 					if (IsCanRender(iterator.name, baseNodeSO) == false) continue;
-					
+
 					PropertyField propField = new PropertyField(iterator.Copy());
 					propField.Bind(soSerialized);
 					container.Add(propField);
@@ -57,9 +57,11 @@ namespace Crogen.CrogenDialog.Editor
 			this.titleContainer.Add(title);
 			this.mainContainer.Add(container);
 
-			_outputs = new Port[baseNodeSO.GetOutputPortCount()];
+			Outputs = new Port[baseNodeSO.GetOutputPortCount()];
 
 			CreatePorts();
+
+			return this;
 		}
 
 		private bool IsCanRender(string propertyName, GeneralNodeSO baseNodeSO)
@@ -118,17 +120,39 @@ namespace Crogen.CrogenDialog.Editor
 		{
 			for (int i = 0; i < BaseNodeSO.GetOutputPortCount(); i++)
 			{
-				_outputs[i] = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(PortTypes.FlowPort));
+				Outputs[i] = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(PortTypes.FlowPort));
 
-				_outputs[i].name = $"{BaseNodeSO.name}_Output_{i}";
-				_outputs[i].portName = BaseNodeSO.GetOutputPortsNames()[i];
+				Outputs[i].name = $"{BaseNodeSO.name}_Output_{i}";
+				Outputs[i].portName = BaseNodeSO.GetOutputPortsNames()[i];
 
-				outputContainer.Add(_outputs[i]);
+				outputContainer.Add(Outputs[i]);
 			}
 		}
 
 		internal void OnDelete()
 		{
+			var inputEdges = Input.connections.ToList(); // ToList()로 먼저 복사!
+
+			foreach (var edge in inputEdges)
+			{
+				edge.input?.Disconnect(edge);
+				edge.output?.Disconnect(edge);
+				_graphView.RemoveElement(edge);
+			}
+
+
+			foreach (var output in Outputs)
+			{
+				var outputEdges = output.connections.ToList(); // 마찬가지로 복사
+
+				foreach (var edge in outputEdges)
+				{
+					edge.input?.Disconnect(edge);
+					edge.output?.Disconnect(edge);
+					_graphView.RemoveElement(edge);
+				}
+			}
+
 			StorytellerSO.RemoveNode(BaseNodeSO);
 		}
 

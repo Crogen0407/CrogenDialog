@@ -5,16 +5,20 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.Windows;
 
 namespace Crogen.CrogenDialogue.Editor
 {
     public class CrogenDialogueGraphView : GraphView
     {
 		private CrogenSearchWindow _searchWindow;
+		private GraphViewChangedListener _graphViewChangedListener;
 
-		public CrogenDialogueGraphView(EditorWindow window, StorytellerBaseSO storytellerSO)
-        {
+		public CrogenDialogueGraphView Initialize(EditorWindow window, StorytellerBaseSO storytellerSO)
+		{
 			this.StretchToParentSize();
+
+			_graphViewChangedListener = new();
 			_searchWindow = ScriptableObject.CreateInstance<CrogenSearchWindow>();
 			_searchWindow.Init(this, window);
 
@@ -30,6 +34,8 @@ namespace Crogen.CrogenDialogue.Editor
 			ShowPorts();
 
 			graphViewChanged = OnGraphViewChanged;
+
+			return this;
 		}
 
 		private void AddManipulators()
@@ -65,9 +71,7 @@ namespace Crogen.CrogenDialogue.Editor
 		{
 			foreach (var nodeData in storytellerSO.NodeList)
 			{
-				var nodeView = new CrogenDialogueNode(nodeData, storytellerSO, this);
-				AddElement(nodeView);
-				nodeView.SetPosition(new Rect(nodeData.Position, Vector2.zero));
+				NodeViewCreator.CreateNodeView(nodeData, this);
 			}
 		}
 
@@ -77,7 +81,7 @@ namespace Crogen.CrogenDialogue.Editor
 			{
 				foreach (var element in change.movedElements)
 				{
-					if (element is CrogenDialogueNode node)
+					if (element is CrogenDialogueNodeView node)
 					{
 						node.OnMove(); // 삭제 전처리 직접 호출
 					}
@@ -88,20 +92,13 @@ namespace Crogen.CrogenDialogue.Editor
 			{
 				foreach (var element in change.elementsToRemove)
 				{
-					if (element is CrogenDialogueNode node)
-					{
-						node.OnDelete(); // 삭제 전처리 직접 호출
-					}
+					// 노드가 삭제되었을 때
+					if (element is CrogenDialogueNodeView node)
+						OnNodeRemoved(node);
 
+					// 엣지가 삭제되었을 때
 					if (element is Edge edge)
-					{
-						CrogenDialogueNode outputNode = edge.output.node as CrogenDialogueNode;
-						CrogenDialogueNode inputNode = edge.input.node as CrogenDialogueNode;
-
-						int removeIndex = outputNode.BaseNodeSO.Connections.FindIndex(x => x.InputPortName.Equals(inputNode.Input.name));
-						Debug.Log(removeIndex);
-						outputNode.BaseNodeSO.Connections.RemoveAt(removeIndex);
-					}
+						OnEdgeRemoved(edge);
 				}
 			}
 
@@ -109,7 +106,7 @@ namespace Crogen.CrogenDialogue.Editor
 			{
 				foreach (var edge in change.edgesToCreate)
 				{
-					var connectedNode = edge.output.node as CrogenDialogueNode;
+					var connectedNode = edge.output.node as CrogenDialogueNodeView;
 
 					connectedNode.BaseNodeSO.Connections.Add(new NodeConnectionData()
 					{
@@ -122,6 +119,20 @@ namespace Crogen.CrogenDialogue.Editor
 			return change;
 		}
 
+		private void OnNodeRemoved(CrogenDialogueNodeView removedNodes)
+		{
+			removedNodes.OnDelete(); // 삭제 전처리 직접 호출
+		}
+
+		private void OnEdgeRemoved(Edge removedEdge)
+		{
+			CrogenDialogueNodeView outputNode = removedEdge.output.node as CrogenDialogueNodeView;
+			CrogenDialogueNodeView inputNode = removedEdge.input.node as CrogenDialogueNodeView;
+
+			int removeIndex = outputNode.BaseNodeSO.Connections.FindIndex(x => x.InputPortName.Equals(inputNode.Input.name));
+			outputNode.BaseNodeSO.Connections.RemoveAt(removeIndex);
+		}
+
 		private void ShowPorts()
 		{
 			foreach (var port in ports)
@@ -129,7 +140,7 @@ namespace Crogen.CrogenDialogue.Editor
 				if (port.direction == Direction.Input) continue;
 
 				var outputPort = port;
-				var node = (outputPort.node as CrogenDialogueNode);
+				var node = (outputPort.node as CrogenDialogueNodeView);
 
 				bool isFind = true;
 
@@ -146,11 +157,14 @@ namespace Crogen.CrogenDialogue.Editor
 						continue;
 					}
 
-					Add(new Edge()
+					var edge = new Edge()
 					{
 						input = inputPort,
 						output = outputPort
-					});
+					};
+					inputPort.Connect(edge);
+					outputPort.Connect(edge);
+					AddElement(edge);
 				}
 
 				// 연결 못했으면 Refresh안해도 됨

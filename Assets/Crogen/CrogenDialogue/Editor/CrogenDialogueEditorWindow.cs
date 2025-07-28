@@ -33,7 +33,7 @@ namespace Crogen.CrogenDialogue.Editor
 
 		private CrogenDialogueGraphView AddGraphView(VisualElement root, StorytellerBaseSO storytellerSO)
 		{
-			CrogenDialogueGraphView graphView = new CrogenDialogueGraphView(this, storytellerSO);
+			CrogenDialogueGraphView graphView = new CrogenDialogueGraphView().Initialize(this, storytellerSO);
 			root.Add(graphView);
 
 			return graphView;
