@@ -1,11 +1,11 @@
-using Crogen.CrogenDialog.Editor;
+using Crogen.CrogenDialog.Editor.NodeView;
+using Crogen.CrogenDialogue.Editor.NodeView;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.Windows;
 
 namespace Crogen.CrogenDialogue.Editor
 {
@@ -13,6 +13,7 @@ namespace Crogen.CrogenDialogue.Editor
     {
 		private CrogenSearchWindow _searchWindow;
 		private GraphViewChangedListener _graphViewChangedListener;
+		private StorytellerBaseSO SelectedStorySO => DialogueSelection.SelectedStorySO;
 
 		public CrogenDialogueGraphView Initialize(EditorWindow window, StorytellerBaseSO storytellerSO)
 		{
@@ -69,10 +70,35 @@ namespace Crogen.CrogenDialogue.Editor
 
 		private void ShowNodeDisplays(StorytellerBaseSO storytellerSO)
 		{
+			NodeViewCreator.CreateStartNodeView(this);
+
 			foreach (var nodeData in storytellerSO.NodeList)
 			{
 				NodeViewCreator.CreateNodeView(nodeData, this);
 			}
+		}
+
+		// 삭제할 수 없는 노드 필터링
+		public override EventPropagation DeleteSelection()
+		{
+			// 삭제 허용된 노드만 필터링
+			var nodesToDelete = selection
+				.Where(elem =>
+				{
+					if (elem is Node node)
+					{
+						return !(node is IUndeletableNodeView); // 인터페이스로 삭제 불가 노드 구분
+					}
+					return true;
+				})
+				.ToList();
+
+			// 선택 항목에서 허용된 것만 남김
+			selection.Clear();
+			foreach (var elem in nodesToDelete)
+				selection.Add(elem);
+
+			return base.DeleteSelection();
 		}
 
 		private GraphViewChange OnGraphViewChanged(GraphViewChange change)
@@ -81,7 +107,7 @@ namespace Crogen.CrogenDialogue.Editor
 			{
 				foreach (var element in change.movedElements)
 				{
-					if (element is CrogenDialogueNodeView node)
+					if (element is GeneralNodeView node)
 					{
 						node.OnMove(); // 삭제 전처리 직접 호출
 					}
@@ -93,7 +119,7 @@ namespace Crogen.CrogenDialogue.Editor
 				foreach (var element in change.elementsToRemove)
 				{
 					// 노드가 삭제되었을 때
-					if (element is CrogenDialogueNodeView node)
+					if (element is GeneralNodeView node)
 						OnNodeRemoved(node);
 
 					// 엣지가 삭제되었을 때
@@ -106,9 +132,9 @@ namespace Crogen.CrogenDialogue.Editor
 			{
 				foreach (var edge in change.edgesToCreate)
 				{
-					var connectedNode = edge.output.node as CrogenDialogueNodeView;
+					var connectedNode = edge.output.node as GeneralNodeView;
 
-					connectedNode.BaseNodeSO.Connections.Add(new NodeConnectionData()
+					SelectedStorySO.Connections.Add(new NodeConnectionData()
 					{
 						InputPortName = edge.input.name,
 						OutputPortName = edge.output.name,
@@ -119,18 +145,18 @@ namespace Crogen.CrogenDialogue.Editor
 			return change;
 		}
 
-		private void OnNodeRemoved(CrogenDialogueNodeView removedNodes)
+		private void OnNodeRemoved(GeneralNodeView removedNodes)
 		{
-			removedNodes.OnDelete(); // 삭제 전처리 직접 호출
+			removedNodes.OnRemove(); // 삭제 전처리 직접 호출
 		}
 
 		private void OnEdgeRemoved(Edge removedEdge)
 		{
-			CrogenDialogueNodeView outputNode = removedEdge.output.node as CrogenDialogueNodeView;
-			CrogenDialogueNodeView inputNode = removedEdge.input.node as CrogenDialogueNodeView;
+			GeneralNodeView outputNode = removedEdge.output.node as GeneralNodeView;
+			GeneralNodeView inputNode = removedEdge.input.node as GeneralNodeView;
 
-			int removeIndex = outputNode.BaseNodeSO.Connections.FindIndex(x => x.InputPortName.Equals(inputNode.Input.name));
-			outputNode.BaseNodeSO.Connections.RemoveAt(removeIndex);
+			int removeIndex = DialogueSelection.SelectedStorySO.Connections.FindIndex(x => x.InputPortName.Equals(inputNode.Input.name));
+			DialogueSelection.SelectedStorySO.Connections.RemoveAt(removeIndex);
 		}
 
 		private void ShowPorts()
@@ -140,15 +166,15 @@ namespace Crogen.CrogenDialogue.Editor
 				if (port.direction == Direction.Input) continue;
 
 				var outputPort = port;
-				var node = (outputPort.node as CrogenDialogueNodeView);
+				var node = (outputPort.node as IOutputPortsNodeView);
 
 				bool isFind = true;
 
-				for (int i = 0; i < node.BaseNodeSO.Connections.Count; i++)
+				for (int i = 0; i < SelectedStorySO.Connections.Count; i++)
 				{
 					var inputPort = ports.FirstOrDefault(x => 
-						x.name == node.BaseNodeSO.Connections[i].InputPortName &&
-						port.name == node.BaseNodeSO.Connections[i].OutputPortName
+						x.name == SelectedStorySO.Connections[i].InputPortName &&
+						port.name == SelectedStorySO.Connections[i].OutputPortName
 					);
 
 					if (inputPort == null)

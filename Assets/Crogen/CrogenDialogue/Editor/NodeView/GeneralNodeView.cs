@@ -1,30 +1,30 @@
 using Crogen.CrogenDialogue;
 using Crogen.CrogenDialogue.Editor;
+using Crogen.CrogenDialogue.Editor.NodeView;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Crogen.CrogenDialog.Editor
+namespace Crogen.CrogenDialog.Editor.NodeView
 {
-	public class CrogenDialogueNodeView : Node
+	public class GeneralNodeView : Node, IRemovableNodeView, IMovableNodeView, IInputPortNodeView, IOutputPortsNodeView
 	{
-		internal GeneralNodeSO BaseNodeSO { get; private set; }
-		internal StorytellerBaseSO StorytellerSO { get; private set; }
+		public GeneralNodeSO BaseNodeSO { get; private set; }
+		public StorytellerBaseSO StorytellerSO { get; private set; }
 		private CrogenDialogueGraphView _graphView;
-		public override string title => BaseNodeSO?.GetNodeName();
+		public override string title { get; set; }
 
-		public Port Input { get; private set; }
-		public Port[] Outputs { get; private set; }
+		public Port Input { get; set; }
+		public Port[] Outputs { get; set; }
 
-		public CrogenDialogueNodeView Initialize(GeneralNodeSO baseNodeSO, StorytellerBaseSO storytellerSO, CrogenDialogue.Editor.CrogenDialogueGraphView graphView)
+		public GeneralNodeView Initialize(GeneralNodeSO baseNodeSO, StorytellerBaseSO storytellerSO, CrogenDialogue.Editor.CrogenDialogueGraphView graphView, bool showInputPort = true, bool showOutputPort = true)
 		{
 			this.BaseNodeSO = baseNodeSO;
+			this.title = baseNodeSO.GetNodeName();
 			this.StorytellerSO = storytellerSO;
 			this._graphView = graphView;
 
@@ -33,6 +33,24 @@ namespace Crogen.CrogenDialog.Editor
 			container.style.paddingLeft = 8;
 			container.style.paddingRight = 8;
 
+			CreateFieldElements(baseNodeSO, container);
+
+			Label titleLebel = new Label(this.title);
+			titleLebel.style.paddingLeft = 8;
+			titleLebel.style.paddingRight = 8;
+
+			this.titleContainer.Add(titleLebel);
+			this.mainContainer.Add(container);
+
+			Outputs = new Port[baseNodeSO.GetOutputPortCount()];
+
+			CreatePorts();
+
+			return this;
+		}
+
+		private void CreateFieldElements(GeneralNodeSO baseNodeSO, VisualElement container)
+		{
 			// SerializedObject 생성
 			SerializedObject soSerialized = new SerializedObject(baseNodeSO);
 			var iterator = soSerialized.GetIterator();
@@ -49,19 +67,6 @@ namespace Crogen.CrogenDialog.Editor
 				}
 				while (iterator.NextVisible(false));
 			}
-
-			Label title = new Label("This is title");
-			title.style.paddingLeft = 8;
-			title.style.paddingRight = 8;
-
-			this.titleContainer.Add(title);
-			this.mainContainer.Add(container);
-
-			Outputs = new Port[baseNodeSO.GetOutputPortCount()];
-
-			CreatePorts();
-
-			return this;
 		}
 
 		private bool IsCanRender(string propertyName, GeneralNodeSO baseNodeSO)
@@ -99,7 +104,7 @@ namespace Crogen.CrogenDialog.Editor
 		private void CreatePorts()
 		{
 			CreateInputPort();
-			CreateOutputPort();
+			CreateOutputPorts();
 
 			RefreshPorts();
 			RefreshExpandedState();
@@ -116,7 +121,7 @@ namespace Crogen.CrogenDialog.Editor
 			inputContainer.Add(Input);
 		}
 
-		private void CreateOutputPort()
+		private void CreateOutputPorts()
 		{
 			for (int i = 0; i < BaseNodeSO.GetOutputPortCount(); i++)
 			{
@@ -129,9 +134,9 @@ namespace Crogen.CrogenDialog.Editor
 			}
 		}
 
-		internal void OnDelete()
+		public void OnRemove()
 		{
-			var inputEdges = Input.connections.ToList(); // ToList()로 먼저 복사!
+			var inputEdges = Input.connections.ToList();
 
 			foreach (var edge in inputEdges)
 			{
@@ -140,10 +145,9 @@ namespace Crogen.CrogenDialog.Editor
 				_graphView.RemoveElement(edge);
 			}
 
-
 			foreach (var output in Outputs)
 			{
-				var outputEdges = output.connections.ToList(); // 마찬가지로 복사
+				var outputEdges = output.connections.ToList();
 
 				foreach (var edge in outputEdges)
 				{
@@ -156,11 +160,13 @@ namespace Crogen.CrogenDialog.Editor
 			StorytellerSO.RemoveNode(BaseNodeSO);
 		}
 
-		internal void OnMove()
+		public void OnMove()
 		{
 			BaseNodeSO.Position = GetPosition().position;
 
 			EditorUtility.SetDirty(StorytellerSO);
 		}
+
+		public override bool IsResizable() => false;
 	}
 }

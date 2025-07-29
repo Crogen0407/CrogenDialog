@@ -23,11 +23,11 @@ namespace Crogen.CrogenDialogue.Editor
 		{
 			rootVisualElement.Clear(); // 이전 내용 제거
 
-			if (CrogenDialogueEditorManager.SelectedStorySO == null) return;
+			if (DialogueSelection.SelectedStorySO == null) return;
 
 			VisualElement root = rootVisualElement;
 
-			AddGraphView(root, CrogenDialogueEditorManager.SelectedStorySO);
+			AddGraphView(root, DialogueSelection.SelectedStorySO);
 			AddStyleSheet(root);
 		}
 

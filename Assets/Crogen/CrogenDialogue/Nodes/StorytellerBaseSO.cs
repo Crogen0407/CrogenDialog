@@ -6,7 +6,8 @@ namespace Crogen.CrogenDialogue
 	[CreateAssetMenu(fileName = nameof(StorytellerBaseSO), menuName = "CrogenDialogue/StorytellerBaseSO")]
 	public class StorytellerBaseSO : ScriptableObject
 	{
-		[field:SerializeField, HideInEditorWindow] public List<GeneralNodeSO> NodeList { get; private set; } = new List<GeneralNodeSO>();
+		[field:SerializeField] public List<GeneralNodeSO> NodeList { get; private set; } = new List<GeneralNodeSO>();
+		[field: SerializeField, HideInEditorWindow] public List<NodeConnectionData> Connections { get; private set; } = new();
 
 #if UNITY_EDITOR
 		public GeneralNodeSO AddNewNode(System.Type type, Vector2 position)

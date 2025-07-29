@@ -56,7 +56,7 @@ namespace Crogen.CrogenDialogue
 
 			if (entry.userData is System.Type type && (type.IsSubclassOf(typeof(GeneralNodeSO)) || type == typeof(GeneralNodeSO)))
 			{
-				var nodeData = CrogenDialogueEditorManager.SelectedStorySO.AddNewNode(type, graphMousePos);
+				var nodeData = DialogueSelection.SelectedStorySO.AddNewNode(type, graphMousePos);
 
 				NodeViewCreator.CreateNodeView(nodeData, _graphView);
 
