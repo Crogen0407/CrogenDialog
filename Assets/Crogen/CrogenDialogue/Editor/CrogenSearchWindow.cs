@@ -1,5 +1,6 @@
 using Crogen.CrogenDialog.Editor;
 using Crogen.CrogenDialogue.Editor;
+using Crogen.CrogenDialogue.Nodes;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;

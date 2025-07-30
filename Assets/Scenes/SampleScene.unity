@@ -286,6 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <StorytellerBase>k__BackingField: {fileID: 11400000, guid: 23afbec681f52ad4b9aac9abb1d4fd1e, type: 2}
+  <StartGo>k__BackingField: 1
 --- !u!4 &558596490
 Transform:
   m_ObjectHideFlags: 0

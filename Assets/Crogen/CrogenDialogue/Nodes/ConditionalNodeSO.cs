@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Crogen.CrogenDialogue
+namespace Crogen.CrogenDialogue.Nodes
 {
 	[RegisterNode]
 	public class ConditionalNodeSO : GeneralNodeSO
@@ -12,6 +12,6 @@ namespace Crogen.CrogenDialogue
 			return new[] { "True", "False" };
 		}
 
-		public override string GetNodeName() => "ConditionalNode";
+		public override string GetNodeName() => "Conditional";
 	}
 }

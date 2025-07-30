@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Crogen.CrogenDialogue
+namespace Crogen.CrogenDialogue.Nodes
 {
 	[RegisterNode]
 	public class TalkSO : GeneralNodeSO
@@ -8,9 +8,6 @@ namespace Crogen.CrogenDialogue
 		[field: SerializeField] public string Name { get; private set; }
 		[field: SerializeField] public string Talk { get; private set; }
 
-		public override string GetNodeName()
-		{
-			return "Talk";
-		}
+		public override string GetNodeName() =>"Talk";
 	}
 }

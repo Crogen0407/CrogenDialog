@@ -1,3 +1,4 @@
+using Crogen.CrogenDialogue.Nodes;
 using System.Collections.Generic;
 using UnityEngine;
 
