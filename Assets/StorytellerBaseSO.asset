@@ -12,13 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70c450b641948df40b7c1f450036e0b8, type: 3}
   m_Name: f944da2d36f88b44f910c9fed35ed924
   m_EditorClassIdentifier: 
-  <Position>k__BackingField: {x: 191, y: 0}
-  <Name>k__BackingField: 
+  NextNodes:
+  - {fileID: 0}
+  <Position>k__BackingField: {x: 289, y: 329}
+  <Name>k__BackingField: ???
   <Description>k__BackingField: 
   <Sprite>k__BackingField: {fileID: 0}
   <layerMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
+--- !u!114 &-955116552401650094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e895f7819ac8c06439954786ad9a936f, type: 3}
+  m_Name: c18061cbcfbe1dd41ab195433258e198
+  m_EditorClassIdentifier: 
+  NextNodes:
+  - {fileID: 0}
+  <Position>k__BackingField: {x: 472, y: 24}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31,8 +48,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65536f7c6c0e79e42be41be4e0d44b7f, type: 3}
   m_Name: StorytellerBaseSO
   m_EditorClassIdentifier: 
+  <StartNode>k__BackingField: {fileID: 7727790383875929379}
   <NodeList>k__BackingField:
   - {fileID: -1418111748773651859}
-  <Connections>k__BackingField:
-  - InputPortName: f944da2d36f88b44f910c9fed35ed924_Input
-    OutputPortName: StartNode_Output
+  - {fileID: 7727790383875929379}
+  - {fileID: -955116552401650094}
+--- !u!114 &7727790383875929379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3694e9b09e81cab4b8c7e9407bcafb24, type: 3}
+  m_Name: 23722f9cb1efca9458b3b476f12e1d58
+  m_EditorClassIdentifier: 
+  NextNodes:
+  - {fileID: -955116552401650094}
+  - {fileID: -1418111748773651859}
+  <Position>k__BackingField: {x: 151, y: 0}

@@ -28,6 +28,9 @@ namespace Crogen.CrogenDialog.Editor.NodeView
 			this.StorytellerSO = storytellerSO;
 			this._graphView = graphView;
 
+			// 검색용
+			viewDataKey = baseNodeSO.name;
+
 			// 메인 컨테이너
 			var container = new VisualElement();
 			container.style.paddingLeft = 8;
@@ -121,7 +124,7 @@ namespace Crogen.CrogenDialog.Editor.NodeView
 			inputContainer.Add(Input);
 		}
 
-		private void CreateOutputPorts()
+		private void CreateOutputPorts()	
 		{
 			for (int i = 0; i < BaseNodeSO.GetOutputPortCount(); i++)
 			{

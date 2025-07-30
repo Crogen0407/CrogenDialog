@@ -11,5 +11,7 @@ namespace Crogen.CrogenDialogue
 		{
 			return new[] { "True", "False" };
 		}
+
+		public override string GetNodeName() => "ConditionalNode";
 	}
 }

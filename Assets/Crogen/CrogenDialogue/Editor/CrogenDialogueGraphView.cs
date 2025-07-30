@@ -32,7 +32,7 @@ namespace Crogen.CrogenDialogue.Editor
 			AddGridBackground();
 			AddStyles();
 			ShowNodeDisplays(storytellerSO);
-			ShowPorts();
+			ShowEdges();
 
 			graphViewChanged = OnGraphViewChanged;
 
@@ -132,13 +132,16 @@ namespace Crogen.CrogenDialogue.Editor
 			{
 				foreach (var edge in change.edgesToCreate)
 				{
-					var connectedNode = edge.output.node as GeneralNodeView;
-
-					SelectedStorySO.Connections.Add(new NodeConnectionData()
+					var connectedNode = edge.output.node;
+					int portIndex = edge.output.parent.IndexOf(edge.output);
+					if (connectedNode is GeneralNodeView generalNode)
 					{
-						InputPortName = edge.input.name,
-						OutputPortName = edge.output.name,
-					});
+						generalNode.BaseNodeSO.NextNodes[portIndex] = (edge.input.node as GeneralNodeView)?.BaseNodeSO;
+					}
+					else if (connectedNode is StartNodeView startNode)
+					{
+						SelectedStorySO.StartNode = (edge.input.node as GeneralNodeView)?.BaseNodeSO;
+					}
 				}
 			}
 
@@ -152,53 +155,64 @@ namespace Crogen.CrogenDialogue.Editor
 
 		private void OnEdgeRemoved(Edge removedEdge)
 		{
-			GeneralNodeView outputNode = removedEdge.output.node as GeneralNodeView;
-			GeneralNodeView inputNode = removedEdge.input.node as GeneralNodeView;
+			var outputNode = removedEdge.output.node;
 
-			int removeIndex = DialogueSelection.SelectedStorySO.Connections.FindIndex(x => x.InputPortName.Equals(inputNode.Input.name));
-			DialogueSelection.SelectedStorySO.Connections.RemoveAt(removeIndex);
+			if (outputNode is GeneralNodeView generalNode)
+			{
+				GeneralNodeView inputNode = removedEdge.input.node as GeneralNodeView;
+
+				int removeIndex = 0;
+
+				for (int i = 0; i < generalNode.BaseNodeSO.NextNodes.Length; i++)
+				{
+					if (generalNode.BaseNodeSO.NextNodes[i] == inputNode.BaseNodeSO)
+					{
+						removeIndex = i;
+						break;
+					}
+				}
+
+				outputNode.RemoveAt(removeIndex);
+			}
+			else if (outputNode is StartNodeView startNode)
+			{
+				SelectedStorySO.StartNode = null;
+			}
 		}
 
-		private void ShowPorts()
+		private void ShowEdges()
 		{
-			foreach (var port in ports)
+			foreach (var node in nodes)
 			{
-				if (port.direction == Direction.Input) continue;
+				GeneralNodeSO[] targetNodes = null;
+				Port[] outputPorts = null;
 
-				var outputPort = port;
-				var node = (outputPort.node as IOutputPortsNodeView);
-
-				bool isFind = true;
-
-				for (int i = 0; i < SelectedStorySO.Connections.Count; i++)
+				if (node is GeneralNodeView generalNode)
 				{
-					var inputPort = ports.FirstOrDefault(x => 
-						x.name == SelectedStorySO.Connections[i].InputPortName &&
-						port.name == SelectedStorySO.Connections[i].OutputPortName
-					);
+					targetNodes = generalNode.BaseNodeSO.NextNodes;
+					outputPorts = (GetNodeByGuid(generalNode.BaseNodeSO.name) as GeneralNodeView).Outputs;
+				}
+				else if (node is StartNodeView startNode)
+				{
+					targetNodes = new GeneralNodeSO[] { SelectedStorySO.StartNode };
+					outputPorts = startNode.Outputs;
+				}
 
-					if (inputPort == null)
-					{
-						isFind = false;
-						continue;
-					}
+				for (int i = 0; i < targetNodes.Length; i++)
+				{
+					if (targetNodes[i] == null) continue;
+					string guid = targetNodes[i].name;
+					var inputPort = (GetNodeByGuid(guid) as GeneralNodeView).Input;
 
 					var edge = new Edge()
 					{
 						input = inputPort,
-						output = outputPort
+						output = outputPorts[i]
 					};
 					inputPort.Connect(edge);
-					outputPort.Connect(edge);
+					outputPorts[i].Connect(edge);
 					AddElement(edge);
 				}
-
-				// 연결 못했으면 Refresh안해도 됨
-				if (isFind == false)
-					continue;
-
-				node.RefreshPorts();
-				node.RefreshExpandedState();
 			}
 		}
 

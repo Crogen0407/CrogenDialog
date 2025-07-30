@@ -8,6 +8,7 @@ namespace Crogen.CrogenDialogue
 
         public void Go()
         {
+            StorytellerBase.StartNode.Go(this);
 		}
     }
 }
