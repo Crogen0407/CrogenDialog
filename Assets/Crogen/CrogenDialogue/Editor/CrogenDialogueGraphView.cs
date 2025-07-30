@@ -165,14 +165,14 @@ namespace Crogen.CrogenDialogue.Editor
 
 				for (int i = 0; i < generalNode.BaseNodeSO.NextNodes.Length; i++)
 				{
-					if (generalNode.BaseNodeSO.NextNodes[i] == inputNode.BaseNodeSO)
+					if (generalNode.BaseNodeSO.NextNodes[i].name.Equals(inputNode.BaseNodeSO.name))
 					{
 						removeIndex = i;
 						break;
 					}
 				}
 
-				outputNode.RemoveAt(removeIndex);
+				generalNode.BaseNodeSO.NextNodes[removeIndex] = null;
 			}
 			else if (outputNode is StartNodeView startNode)
 			{

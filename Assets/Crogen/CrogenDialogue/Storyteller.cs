@@ -8,6 +8,8 @@ namespace Crogen.CrogenDialogue
 
         public void Go()
         {
+            Debug.Assert(StorytellerBase.StartNode != null, "Start node is empty!");
+
             StorytellerBase.StartNode.Go(this);
 		}
     }
