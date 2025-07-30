@@ -5,9 +5,10 @@ namespace Crogen.CrogenDialogue.Nodes
 	[RegisterNode]
 	public class DebugNodeSO : GeneralNodeSO
 	{
-		public override string GetNodeName() => "Debug";
-
 		[TextArea] public string message;
+
+		public override string GetNodeName() => "Debug";
+		public override string GetTooltip() => "디버깅용 노드입니다.";
 
 		public override void Go(Storyteller storyteller)
 		{

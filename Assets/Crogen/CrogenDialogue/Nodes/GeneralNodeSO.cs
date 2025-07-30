@@ -1,4 +1,5 @@
 using Crogen.CrogenDialogue.NodeBlocks;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +15,16 @@ namespace Crogen.CrogenDialogue.Nodes
 		public virtual string[] GetOutputPortsNames() => new[] { string.Empty };
 		public virtual string GetNodeName() => "General";
 		public virtual int GetOutputPortCount()=> 1;
+		public virtual string GetTooltip() => "기본적인 노드입니다.";
 
+#if UNITY_EDITOR
+		public Action OnValueChangedEvent;
+
+		protected virtual void OnValidate()
+		{
+			OnValueChangedEvent?.Invoke();
+		}
+#endif
 		protected virtual void OnEnable()
 		{
 			if (NextNodes == null) 

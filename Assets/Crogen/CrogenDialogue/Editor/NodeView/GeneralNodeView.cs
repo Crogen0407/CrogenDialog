@@ -8,6 +8,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Crogen.CrogenDialog.Editor.NodeView
@@ -25,9 +26,12 @@ namespace Crogen.CrogenDialog.Editor.NodeView
 		public GeneralNodeView Initialize(GeneralNodeSO baseNodeSO, StorytellerBaseSO storytellerSO, CrogenDialogue.Editor.CrogenDialogueGraphView graphView, bool showInputPort = true, bool showOutputPort = true)
 		{
 			this.BaseNodeSO = baseNodeSO;
+			this.tooltip = BaseNodeSO.GetTooltip();
 			this.title = baseNodeSO.GetNodeName();
 			this.StorytellerSO = storytellerSO;
 			this._graphView = graphView;
+
+			baseNodeSO.OnValueChangedEvent = HandleValueChanged;
 
 			// °Ë»ö¿ë
 			viewDataKey = baseNodeSO.name;
@@ -51,6 +55,11 @@ namespace Crogen.CrogenDialog.Editor.NodeView
 			CreatePorts();
 
 			return this;
+		}
+
+		private void HandleValueChanged()
+		{
+			this.tooltip = BaseNodeSO.GetTooltip();
 		}
 
 		private void CreateFieldElements(GeneralNodeSO baseNodeSO, VisualElement container)

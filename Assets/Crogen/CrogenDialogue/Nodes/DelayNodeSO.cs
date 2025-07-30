@@ -10,6 +10,8 @@ namespace Crogen.CrogenDialogue.Nodes
 
 		public override string GetNodeName() => "Delay";
 
+		public override string GetTooltip() => $"{Delay}초 동안 기다리고나서 다음 노드를 실행합니다.";
+
 		public override void Go(Storyteller storyteller)
 		{
 			storyteller.StartCoroutine(DelayNextGo(storyteller, Delay));
