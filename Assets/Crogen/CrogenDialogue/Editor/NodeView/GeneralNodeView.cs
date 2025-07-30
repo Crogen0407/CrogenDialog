@@ -10,6 +10,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace Crogen.CrogenDialog.Editor.NodeView
 {
@@ -34,12 +35,22 @@ namespace Crogen.CrogenDialog.Editor.NodeView
 			baseNodeSO.OnValueChangedEvent = HandleValueChanged;
 
 			// 검색용
-			viewDataKey = baseNodeSO.name;
+			viewDataKey = baseNodeSO.GUID;
 
 			// 메인 컨테이너
 			var container = new VisualElement();
 			container.style.paddingLeft = 8;
 			container.style.paddingRight = 8;
+
+			TextField nameInputField = new TextField("Name");
+			nameInputField.isDelayed = true;
+			nameInputField.value = baseNodeSO.name;
+			nameInputField.RegisterValueChangedCallback(evt => {
+				baseNodeSO.name = evt.newValue;
+				EditorUtility.SetDirty(baseNodeSO);
+				AssetDatabase.SaveAssets();
+			});
+			container.Add(nameInputField);
 
 			CreateFieldElements(baseNodeSO, container);
 
@@ -128,7 +139,7 @@ namespace Crogen.CrogenDialog.Editor.NodeView
 			// Input은 하나만!
 			Input = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(PortTypes.FlowPort));
 
-			Input.name = $"{BaseNodeSO.name}_Input";
+			Input.name = $"{BaseNodeSO.GUID}_Input";
 			Input.portName = string.Empty;
 
 			inputContainer.Add(Input);
@@ -140,7 +151,7 @@ namespace Crogen.CrogenDialog.Editor.NodeView
 			{
 				Outputs[i] = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(PortTypes.FlowPort));
 
-				Outputs[i].name = $"{BaseNodeSO.name}_Output_{i}";
+				Outputs[i].name = $"{BaseNodeSO.GUID}_Output_{i}";
 				Outputs[i].portName = BaseNodeSO.GetOutputPortsNames()[i];
 
 				outputContainer.Add(Outputs[i]);

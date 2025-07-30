@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 558596490}
   - component: {fileID: 558596489}
   m_Layer: 0
-  m_Name: StoryTeller
+  m_Name: Storyteller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -282,11 +282,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 558596488}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da65de161f75b3c48a17696a7a9b2577, type: 3}
+  m_Script: {fileID: 11500000, guid: 56c437eef182ab9418b1df0e1ffcd572, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <StorytellerBase>k__BackingField: {fileID: 11400000, guid: 23afbec681f52ad4b9aac9abb1d4fd1e, type: 2}
-  <StartGo>k__BackingField: 1
+  <StartAndGo>k__BackingField: 1
 --- !u!4 &558596490
 Transform:
   m_ObjectHideFlags: 0

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7327185199377576203
+--- !u!114 &-7622241477444659902
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,13 +10,50 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8684e2b141c003741b5fb289a07c8e59, type: 3}
-  m_Name: 9f9a30aad03f7fc40bf70f6707840f30
+  m_Name: "\uC5EC\uAE30\uB85C\uB2E4\uC2DC"
   m_EditorClassIdentifier: 
+  <GUID>k__BackingField: b513ff7aa614afe4aa1a1577f37b6e8a
   NextNodes:
-  - {fileID: 0}
+  - {fileID: -6384601308976850708}
   <NodeBlockList>k__BackingField: []
-  <Position>k__BackingField: {x: 204, y: 0}
-  message: "\uC774\uAC74\uD14C\uC2A4\uD2B8\uC6A9"
+  <Position>k__BackingField: {x: 124, y: 0}
+  message: "\uBC0D"
+--- !u!114 &-6384601308976850708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1f37db0f84a224429858af9a72cab6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <GUID>k__BackingField: 7efe2cfc181cc60479704de356a00ec0
+  NextNodes:
+  - {fileID: -2701436192536402995}
+  <NodeBlockList>k__BackingField: []
+  <Position>k__BackingField: {x: 366, y: 0}
+  <Delay>k__BackingField: 1
+--- !u!114 &-2701436192536402995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a99dc989e11c3c47a3d15e6d50606ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <GUID>k__BackingField: c9bbce26a3bf8264799adaaf22f19e9b
+  NextNodes:
+  - {fileID: 5890614126544379755}
+  <NodeBlockList>k__BackingField: []
+  <Position>k__BackingField: {x: 553, y: -1}
+  <Destination>k__BackingField: {fileID: -7622241477444659902}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29,6 +66,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d068e1d4789cd8f44abcffe52984115a, type: 3}
   m_Name: StorytellerBaseSO
   m_EditorClassIdentifier: 
-  <StartNode>k__BackingField: {fileID: -7327185199377576203}
+  <Billboard>k__BackingField: {fileID: 0}
+  <StartNode>k__BackingField: {fileID: -7622241477444659902}
   <NodeList>k__BackingField:
-  - {fileID: -7327185199377576203}
+  - {fileID: -7622241477444659902}
+  - {fileID: -6384601308976850708}
+  - {fileID: -2701436192536402995}
+  - {fileID: 5890614126544379755}
+--- !u!114 &5890614126544379755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8684e2b141c003741b5fb289a07c8e59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <GUID>k__BackingField: fbc3b22e116c8f34581254517a2f5444
+  NextNodes:
+  - {fileID: 0}
+  <NodeBlockList>k__BackingField: []
+  <Position>k__BackingField: {x: 922, y: 0}
+  message: "\uAC4D \uD1B5\uACFC\uD574\uBC84\uB9AC\uAE30"

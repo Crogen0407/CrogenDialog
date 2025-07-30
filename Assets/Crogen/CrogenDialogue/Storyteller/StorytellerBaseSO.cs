@@ -1,3 +1,4 @@
+using Crogen.CrogenDialogue.Billboard;
 using Crogen.CrogenDialogue.Nodes;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ namespace Crogen.CrogenDialogue
 	[CreateAssetMenu(fileName = nameof(StorytellerBaseSO), menuName = "CrogenDialogue/StorytellerBaseSO")]
 	public class StorytellerBaseSO : ScriptableObject
 	{
+		[field: SerializeField] public BillboardSO Billboard { get; private set; }
 		[field: SerializeField] public GeneralNodeSO StartNode { get; set; }
 		[field: SerializeField] public List<GeneralNodeSO> NodeList { get; private set; } = new List<GeneralNodeSO>();
 
@@ -16,7 +18,7 @@ namespace Crogen.CrogenDialogue
 		public GeneralNodeSO AddNewNode(System.Type type, Vector2 position)
 		{
 			var nodeData = ScriptableObject.CreateInstance(type) as GeneralNodeSO;
-			nodeData.name = UnityEditor.GUID.Generate().ToString();
+			nodeData.GUID = UnityEditor.GUID.Generate().ToString();
 			nodeData.Position = position;
 
 			NodeList.Add(nodeData);

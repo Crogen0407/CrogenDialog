@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Crogen.CrogenDialogue.Billboard
@@ -19,64 +18,118 @@ namespace Crogen.CrogenDialogue.Billboard
 			}
 		}
 
-		public bool Set<T>(string name, T value) where T : notnull
+		public int GetIntValue(string name)
 		{
-			if (ValueDictionary.ContainsKey(name) == true)
-				if (typeof(T).Equals(ValueDictionary[name].Type) == false)
-					return false;
-
-			if (value is int intValue)
-				ValueDictionary[name].IntValue = intValue;
-			else if (value is float floatValue)
-				ValueDictionary[name].FloatValue = floatValue;
-			else if (value is bool boolValue)
-				ValueDictionary[name].BoolValue = boolValue;
-			else if (value is string stringValue)
-				ValueDictionary[name].StringValue = stringValue;
-
-			return true;
-		}
-
-		public bool Get(string name, out int value)
-		{
-			if (ValueDictionary.TryGetValue(name, out var entry) && entry.Type == typeof(int))
+			if (ValueDictionary.ContainsKey(name) == false)
 			{
-				value = entry.IntValue;
-				return true;
+				Debug.LogWarning("잘못된 변수명");
+				return default;
 			}
-			value = default;
-			return false;
-		}
-		public bool Get(string name, out float value) 
-		{
-			if (ValueDictionary.TryGetValue(name, out var entry) && entry.Type == typeof(int))
+			if (ValueDictionary[name].Type != EBillboardValueType.Int)
 			{
-				value = entry.FloatValue;
-				return true;
+				Debug.LogWarning("잘못된 값 타입");
+				return default;
 			}
-			value = default;
-			return false;
+			return ValueDictionary[name].IntValue;
 		}
-		public bool Get(string name, out bool value) 
+		public float GetFloatValue(string name)
 		{
-			if (ValueDictionary.TryGetValue(name, out var entry) && entry.Type == typeof(int))
+			if (ValueDictionary.ContainsKey(name) == false)
 			{
-				value = entry.BoolValue;
-				return true;
+				Debug.LogWarning("잘못된 변수명");
+				return default;
 			}
-			value = default;
-			return false;
+			if (ValueDictionary[name].Type != EBillboardValueType.Float)
+			{
+				Debug.LogWarning("잘못된 값 타입");
+				return default;
+			}
+			return ValueDictionary[name].FloatValue;
 		}
-		public bool Get(string name, out string value) 
+		public string GetStringValue(string name)
 		{
-			if (ValueDictionary.TryGetValue(name, out var entry) && entry.Type == typeof(int))
+			if (ValueDictionary.ContainsKey(name) == false)
 			{
-				value = entry.StringValue;
-				return true;
+				Debug.LogWarning("잘못된 변수명");
+				return default;
 			}
-			value = default;
-			return false;
+			if (ValueDictionary[name].Type != EBillboardValueType.String)
+			{
+				Debug.LogWarning("잘못된 값 타입");
+				return default;
+			}
+			return ValueDictionary[name].StringValue;
+		}
+		public bool GetBoolValue(string name)
+		{
+			if (ValueDictionary.ContainsKey(name) == false)
+			{
+				Debug.LogWarning("잘못된 변수명");
+				return default;
+			}
+			if (ValueDictionary[name].Type != EBillboardValueType.Bool)
+			{
+				Debug.LogWarning("잘못된 값 타입");
+				return default;
+			}
+			return ValueDictionary[name].BoolValue;
 		}
 
+		public void SetIntValue(int value)
+		{
+			if (ValueDictionary.ContainsKey(name) == false)
+			{
+				Debug.LogWarning("잘못된 변수명");
+				return;
+			}
+			if (ValueDictionary[name].Type != EBillboardValueType.Int)
+			{
+				Debug.LogWarning("잘못된 값 타입");
+				return;
+			}
+			ValueDictionary[name].IntValue = value;
+		}
+		public void SetFloatValue(float value)
+		{
+			if (ValueDictionary.ContainsKey(name) == false)
+			{
+				Debug.LogWarning("잘못된 변수명");
+				return;
+			}
+			if (ValueDictionary[name].Type != EBillboardValueType.Float)
+			{
+				Debug.LogWarning("잘못된 값 타입");
+				return;
+			}
+			ValueDictionary[name].FloatValue = value;
+		}
+		public void SetStringValue(string value)
+		{
+			if (ValueDictionary.ContainsKey(name) == false)
+			{
+				Debug.LogWarning("잘못된 변수명");
+				return;
+			}
+			if (ValueDictionary[name].Type != EBillboardValueType.String)
+			{
+				Debug.LogWarning("잘못된 값 타입");
+				return;
+			}
+			ValueDictionary[name].StringValue = value;
+		}
+		public void SetBoolValue(bool value)
+		{
+			if (ValueDictionary.ContainsKey(name) == false)
+			{
+				Debug.LogWarning("잘못된 변수명");
+				return;
+			}
+			if (ValueDictionary[name].Type != EBillboardValueType.Bool)
+			{
+				Debug.LogWarning("잘못된 값 타입");
+				return;
+			}
+			ValueDictionary[name].BoolValue = value;
+		}
 	}
 }

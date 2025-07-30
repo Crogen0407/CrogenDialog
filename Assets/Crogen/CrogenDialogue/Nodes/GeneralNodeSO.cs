@@ -8,6 +8,7 @@ namespace Crogen.CrogenDialogue.Nodes
 	[RegisterNode] // 기본 노드라는 뜻. 사용자는 이거 붙힐 필요없음
 	public class GeneralNodeSO : ScriptableObject
 	{
+		[field: SerializeField, HideInEditorWindow] public string GUID { get; set; }
 		[field: SerializeField, HideInEditorWindow] public GeneralNodeSO[] NextNodes;
 		[field: SerializeField, HideInEditorWindow] public List<NodeBlockSO> NodeBlockList { get; private set; } = new();
 		[field: SerializeField, HideInEditorWindow] public Vector2 Position { get; set; }

@@ -166,7 +166,7 @@ namespace Crogen.CrogenDialogue.Editor
 
 				for (int i = 0; i < generalNode.BaseNodeSO.NextNodes.Length; i++)
 				{
-					if (generalNode.BaseNodeSO.NextNodes[i].name.Equals(inputNode.BaseNodeSO.name))
+					if (generalNode.BaseNodeSO.NextNodes[i].GUID.Equals(inputNode.BaseNodeSO.GUID))
 					{
 						removeIndex = i;
 						break;
@@ -191,7 +191,7 @@ namespace Crogen.CrogenDialogue.Editor
 				if (node is GeneralNodeView generalNode)
 				{
 					targetNodes = generalNode.BaseNodeSO.NextNodes;
-					outputPorts = (GetNodeByGuid(generalNode.BaseNodeSO.name) as GeneralNodeView).Outputs;
+					outputPorts = (GetNodeByGuid(generalNode.BaseNodeSO.GUID) as GeneralNodeView).Outputs;
 				}
 				else if (node is StartNodeView startNode)
 				{
@@ -202,7 +202,7 @@ namespace Crogen.CrogenDialogue.Editor
 				for (int i = 0; i < targetNodes.Length; i++)
 				{
 					if (targetNodes[i] == null) continue;
-					string guid = targetNodes[i].name;
+					string guid = targetNodes[i].GUID;
 					var inputPort = (GetNodeByGuid(guid) as GeneralNodeView).Input;
 
 					var edge = new Edge()
