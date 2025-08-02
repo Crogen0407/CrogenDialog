@@ -9,7 +9,7 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace Crogen.CrogenDialog.Editor.NodeView
+namespace Crogen.CrogenDialogue.Editor.NodeView
 {
 	public class GeneralNodeView : Node, IRemovableNodeView, IMovableNodeView, IInputPortNodeView, IOutputPortsNodeView
 	{

@@ -12,8 +12,6 @@ namespace Crogen.CrogenDialogue
 		[field: SerializeField] public NodeSO StartNode { get; set; }
 		[field: SerializeField] public List<NodeSO> NodeList { get; private set; } = new List<NodeSO>();
 
-		public Dictionary<string, NodeSO> NodeDictionary { get; private set; } = new();
-
 		public bool IsError()
 		{
 			for (int i = 0; i < NodeList.Count; i++)

@@ -4,19 +4,50 @@ using UnityEngine;
 namespace Crogen.CrogenDialogue.Billboard
 {
 	[CreateAssetMenu(fileName = nameof(BillboardSO), menuName = "CrogenDialogue/BillboardSO")]
+	[RegisterScript]
     public class BillboardSO : ScriptableObject
     {
-		public List<BillboardValue> ValueList = new();
-		[field: SerializeField] public Dictionary<string, BillboardValue> ValueDictionary { get; private set; }
+		public List<BillboardValueSO> ValueList = new();
+		private Dictionary<string, BillboardValueSO> ValueDictionary { get; set; } = new();
 
 		private void OnEnable()
 		{
-			ValueDictionary = new();
+			if (ValueDictionary == null)
+				ValueDictionary = new();
+
+			ValueDictionary.Clear();
 			foreach (var value in ValueList)
 			{
-				ValueDictionary.Add(value.Name, value);
+				ValueDictionary.TryAdd(value.Name, value);
 			}
 		}
+
+#if UNITY_EDITOR
+		public BillboardValueSO AddNewValue()
+		{
+			var valueData = ScriptableObject.CreateInstance(typeof(BillboardValueSO)) as BillboardValueSO;
+
+			ValueList.Add(valueData);
+			UnityEditor.AssetDatabase.AddObjectToAsset(valueData, this); // 이러면 SO 하단에 묶임
+			UnityEditor.EditorUtility.SetDirty(this);
+			UnityEditor.AssetDatabase.SaveAssets();
+			return valueData;
+		}
+
+		public void RemoveNode(BillboardValueSO valueSO)
+		{
+			if (valueSO != null)
+			{
+				if (ValueList.Contains(valueSO) == false) return;
+				ValueList.Remove(valueSO);
+			}
+			else
+			{
+				var lastValueData = ValueList[ValueList.Count - 1];
+				ValueList.Remove(lastValueData);
+			}
+		}
+#endif
 
 		public int GetIntValue(string name)
 		{
@@ -25,7 +56,7 @@ namespace Crogen.CrogenDialogue.Billboard
 				Debug.LogWarning("잘못된 변수명");
 				return default;
 			}
-			if (ValueDictionary[name].Type != EBillboardValueType.Int)
+			if (ValueDictionary[name].ValueType != EBillboardValueType.Int)
 			{
 				Debug.LogWarning("잘못된 값 타입");
 				return default;
@@ -39,7 +70,7 @@ namespace Crogen.CrogenDialogue.Billboard
 				Debug.LogWarning("잘못된 변수명");
 				return default;
 			}
-			if (ValueDictionary[name].Type != EBillboardValueType.Float)
+			if (ValueDictionary[name].ValueType != EBillboardValueType.Float)
 			{
 				Debug.LogWarning("잘못된 값 타입");
 				return default;
@@ -53,7 +84,7 @@ namespace Crogen.CrogenDialogue.Billboard
 				Debug.LogWarning("잘못된 변수명");
 				return default;
 			}
-			if (ValueDictionary[name].Type != EBillboardValueType.String)
+			if (ValueDictionary[name].ValueType != EBillboardValueType.String)
 			{
 				Debug.LogWarning("잘못된 값 타입");
 				return default;
@@ -67,7 +98,7 @@ namespace Crogen.CrogenDialogue.Billboard
 				Debug.LogWarning("잘못된 변수명");
 				return default;
 			}
-			if (ValueDictionary[name].Type != EBillboardValueType.Bool)
+			if (ValueDictionary[name].ValueType != EBillboardValueType.Bool)
 			{
 				Debug.LogWarning("잘못된 값 타입");
 				return default;
@@ -82,7 +113,7 @@ namespace Crogen.CrogenDialogue.Billboard
 				Debug.LogWarning("잘못된 변수명");
 				return;
 			}
-			if (ValueDictionary[name].Type != EBillboardValueType.Int)
+			if (ValueDictionary[name].ValueType != EBillboardValueType.Int)
 			{
 				Debug.LogWarning("잘못된 값 타입");
 				return;
@@ -96,7 +127,7 @@ namespace Crogen.CrogenDialogue.Billboard
 				Debug.LogWarning("잘못된 변수명");
 				return;
 			}
-			if (ValueDictionary[name].Type != EBillboardValueType.Float)
+			if (ValueDictionary[name].ValueType != EBillboardValueType.Float)
 			{
 				Debug.LogWarning("잘못된 값 타입");
 				return;
@@ -110,7 +141,7 @@ namespace Crogen.CrogenDialogue.Billboard
 				Debug.LogWarning("잘못된 변수명");
 				return;
 			}
-			if (ValueDictionary[name].Type != EBillboardValueType.String)
+			if (ValueDictionary[name].ValueType != EBillboardValueType.String)
 			{
 				Debug.LogWarning("잘못된 값 타입");
 				return;
@@ -124,7 +155,7 @@ namespace Crogen.CrogenDialogue.Billboard
 				Debug.LogWarning("잘못된 변수명");
 				return;
 			}
-			if (ValueDictionary[name].Type != EBillboardValueType.Bool)
+			if (ValueDictionary[name].ValueType != EBillboardValueType.Bool)
 			{
 				Debug.LogWarning("잘못된 값 타입");
 				return;

@@ -1,5 +1,5 @@
-using Crogen.CrogenDialog.Editor.NodeView;
 using Crogen.CrogenDialogue.Editor.NodeView;
+using Crogen.CrogenDialogue.Editor.Resources;
 using Crogen.CrogenDialogue.Editor.UTIL;
 using Crogen.CrogenDialogue.Nodes;
 using System.Collections.Generic;
@@ -30,9 +30,10 @@ namespace Crogen.CrogenDialogue.Editor
 				SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), _nodeSearchWindow);
 			};
 
+			StyleLoader.AddStyles(this, "CrogenDialogueGraphViewStyles");
+
 			AddManipulators();
 			AddGridBackground();
-			AddStyles();
 			ShowNodeDisplays(storytellerBaseSO);
 			ShowEdges();
 
@@ -56,18 +57,6 @@ namespace Crogen.CrogenDialogue.Editor
 			gridBackground.StretchToParentSize();
 
 			Insert(0, gridBackground);
-		}
-
-		private void AddStyles()
-		{
-			StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets\\Crogen\\CrogenDialogue\\Editor\\Resources\\CrogenDialogueGraphViewStyles.uss");
-			if (styleSheet == null)
-			{
-				Debug.LogError("Fail to get style sheet.");
-				return;
-			}
-
-			styleSheets.Add(styleSheet);
 		}
 
 		private void ShowNodeDisplays(StorytellerBaseSO storytellerSO)
@@ -109,7 +98,7 @@ namespace Crogen.CrogenDialogue.Editor
 			{
 				foreach (var element in change.movedElements)
 				{
-					if (element is CrogenDialog.Editor.NodeView.GeneralNodeView node)
+					if (element is GeneralNodeView node)
 					{
 						node.OnMove(); // 삭제 전처리 직접 호출
 					}
@@ -121,7 +110,7 @@ namespace Crogen.CrogenDialogue.Editor
 				foreach (var element in change.elementsToRemove)
 				{
 					// 노드가 삭제되었을 때
-					if (element is CrogenDialog.Editor.NodeView.GeneralNodeView node)
+					if (element is GeneralNodeView node)
 						OnNodeRemoved(node);
 
 					// 엣지가 삭제되었을 때
@@ -136,13 +125,13 @@ namespace Crogen.CrogenDialogue.Editor
 				{
 					var connectedNode = edge.output.node;
 					int portIndex = edge.output.parent.IndexOf(edge.output);
-					if (connectedNode is CrogenDialog.Editor.NodeView.GeneralNodeView generalNode)
+					if (connectedNode is GeneralNodeView generalNode)
 					{
-						generalNode.BaseNodeSO.NextNodes[portIndex] = (edge.input.node as CrogenDialog.Editor.NodeView.GeneralNodeView)?.BaseNodeSO;
-					}
+						generalNode.BaseNodeSO.NextNodes[portIndex] = (edge.input.node as GeneralNodeView)?.BaseNodeSO;
+					}	
 					else if (connectedNode is StartNodeView startNode)
 					{
-						_storytellerBaseSO.StartNode = (edge.input.node as CrogenDialog.Editor.NodeView.GeneralNodeView)?.BaseNodeSO;
+						_storytellerBaseSO.StartNode = (edge.input.node as GeneralNodeView)?.BaseNodeSO;
 					}
 				}
 			}
@@ -150,7 +139,7 @@ namespace Crogen.CrogenDialogue.Editor
 			return change;
 		}
 
-		private void OnNodeRemoved(CrogenDialog.Editor.NodeView.GeneralNodeView removedNodes)
+		private void OnNodeRemoved(GeneralNodeView removedNodes)
 		{
 			removedNodes.OnRemove(); // 삭제 전처리 직접 호출
 		}
@@ -159,9 +148,9 @@ namespace Crogen.CrogenDialogue.Editor
 		{
 			var outputNode = removedEdge.output.node;
 
-			if (outputNode is CrogenDialog.Editor.NodeView.GeneralNodeView generalNode)
+			if (outputNode is GeneralNodeView generalNode)
 			{
-				CrogenDialog.Editor.NodeView.GeneralNodeView inputNode = removedEdge.input.node as CrogenDialog.Editor.NodeView.GeneralNodeView;
+				GeneralNodeView inputNode = removedEdge.input.node as GeneralNodeView;
 
 				int removeIndex = 0;
 
@@ -189,10 +178,10 @@ namespace Crogen.CrogenDialogue.Editor
 				NodeSO[] targetNodes = null;
 				Port[] outputPorts = null;
 
-				if (node is CrogenDialog.Editor.NodeView.GeneralNodeView generalNode)
+				if (node is GeneralNodeView generalNode)
 				{
 					targetNodes = generalNode.BaseNodeSO.NextNodes;
-					outputPorts = (GetNodeByGuid(generalNode.BaseNodeSO.GUID) as CrogenDialog.Editor.NodeView.GeneralNodeView).Outputs;
+					outputPorts = (GetNodeByGuid(generalNode.BaseNodeSO.GUID) as GeneralNodeView).Outputs;
 				}
 				else if (node is StartNodeView startNode)
 				{
@@ -204,7 +193,7 @@ namespace Crogen.CrogenDialogue.Editor
 				{
 					if (targetNodes[i] == null) continue;
 					string guid = targetNodes[i].GUID;
-					var inputPort = (GetNodeByGuid(guid) as CrogenDialog.Editor.NodeView.GeneralNodeView).Input;
+					var inputPort = (GetNodeByGuid(guid) as GeneralNodeView).Input;
 
 					var edge = new Edge()
 					{

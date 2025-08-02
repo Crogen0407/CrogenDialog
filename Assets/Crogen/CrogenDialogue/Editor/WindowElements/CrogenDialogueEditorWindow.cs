@@ -1,3 +1,4 @@
+using Crogen.CrogenDialogue.Editor.Resources;
 using Crogen.CrogenDialogue.Editor.UTIL;
 using UnityEditor;
 using UnityEngine;
@@ -27,30 +28,20 @@ namespace Crogen.CrogenDialogue.Editor
 
 			VisualElement root = rootVisualElement;
 
-			AddGraphView(root, DialogueSelection.SelectedStorySO);
-			AddStyleSheet(root);
+			rootVisualElement.style.flexDirection = FlexDirection.Row;
+
+			AddViews(root, DialogueSelection.SelectedStorySO);
+			StyleLoader.AddStyles(root, "CrogenDialogueEditorWindowStyle");
 		}
 
-		private CrogenDialogueGraphView AddGraphView(VisualElement root, StorytellerBaseSO storytellerSO)
+		private void AddViews(VisualElement root, StorytellerBaseSO storytellerBaseSO)
 		{
-			CrogenDialogueGraphView graphView = new CrogenDialogueGraphView().Initialize(this, storytellerSO);
+			CrogenDialogueGraphView graphView = new CrogenDialogueGraphView().Initialize(this, storytellerBaseSO);
 			root.Add(graphView);
 
-			return graphView;
-		}
+			CrogenDialogueInspectorView inspectorView = new CrogenDialogueInspectorView().Initialize(storytellerBaseSO);
+			root.Add(inspectorView);
 
-		private StyleSheet AddStyleSheet(VisualElement root)
-		{
-			StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets\\Crogen\\CrogenDialogue\\Editor\\Resources\\CrogenDialogueVariables.uss");
-			if (styleSheet == null)
-			{
-				Debug.LogError("Fail to get style sheet.");
-				return null;
-			}
-
-			root.styleSheets.Add(styleSheet);
-
-			return styleSheet;
 		}
 	}
 }

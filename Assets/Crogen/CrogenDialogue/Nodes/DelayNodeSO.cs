@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Crogen.CrogenDialogue.Nodes
 {
-	[RegisterNode]
+	[RegisterScript]
 	public class DelayNodeSO : NodeSO
 	{
 		[field: SerializeField] public float Delay { get; private set; } = 0.1f;

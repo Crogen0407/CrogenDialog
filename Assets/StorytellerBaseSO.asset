@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d068e1d4789cd8f44abcffe52984115a, type: 3}
   m_Name: StorytellerBaseSO
   m_EditorClassIdentifier: 
-  <Billboard>k__BackingField: {fileID: 0}
+  <Billboard>k__BackingField: {fileID: 11400000, guid: b8c90831a8836a040b669a4481a1fd24, type: 2}
   <StartNode>k__BackingField: {fileID: -7014097272001674374}
   <NodeList>k__BackingField:
   - {fileID: 7388821872682383935}

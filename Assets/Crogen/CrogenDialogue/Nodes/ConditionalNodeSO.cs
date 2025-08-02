@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Crogen.CrogenDialogue.Nodes
 {
-	[RegisterNode]
+	[RegisterScript]
 	public class ConditionalNodeSO : NodeSO
 	{
 		public override int GetOutputPortCount() => 2;
