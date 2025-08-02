@@ -1,155 +1,140 @@
 using Crogen.CrogenDialogue;
 using Crogen.CrogenDialogue.Editor;
 using Crogen.CrogenDialogue.Editor.NodeView;
+using Crogen.CrogenDialogue.Editor.Resources;
+using Crogen.CrogenDialogue.Editor.UTIL;
 using Crogen.CrogenDialogue.Nodes;
-using System;
 using System.Linq;
-using System.Reflection;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace Crogen.CrogenDialog.Editor.NodeView
 {
 	public class GeneralNodeView : Node, IRemovableNodeView, IMovableNodeView, IInputPortNodeView, IOutputPortsNodeView
 	{
-		public GeneralNodeSO BaseNodeSO { get; private set; }
-		public StorytellerBaseSO StorytellerSO { get; private set; }
+		public NodeSO BaseNodeSO { get; private set; }
+		public StorytellerBaseSO StorytellerBaseSO { get; private set; }
 		private CrogenDialogueGraphView _graphView;
-		public override string title { get; set; }
+		public VisualElement NodeBlockContainer { get; private set; }
 
 		public Port Input { get; set; }
 		public Port[] Outputs { get; set; }
 
-		public GeneralNodeView Initialize(GeneralNodeSO baseNodeSO, StorytellerBaseSO storytellerSO, CrogenDialogue.Editor.CrogenDialogueGraphView graphView, bool showInputPort = true, bool showOutputPort = true)
+		public GeneralNodeView Initialize(NodeSO baseNodeSO, StorytellerBaseSO storytellerBaseSO, CrogenDialogueGraphView graphView)
 		{
 			this.BaseNodeSO = baseNodeSO;
-			this.tooltip = BaseNodeSO.GetTooltip();
 			this.title = baseNodeSO.GetNodeName();
-			this.StorytellerSO = storytellerSO;
+			this.StorytellerBaseSO = storytellerBaseSO;
 			this._graphView = graphView;
+			this.viewDataKey = baseNodeSO.GUID;
+			this.name = "generalNodeView"; //UI toolkit 스타일 지정용
 
+			// 에디터용 이벤트 구독
 			baseNodeSO.OnValueChangedEvent = HandleValueChanged;
 
-			// 검색용
-			viewDataKey = baseNodeSO.GUID;
+			// 이름 필드
+			{
+				TextField nameTextField = new TextField();
+				nameTextField.name = "nameTextField";
+				nameTextField.isDelayed = true;
+				nameTextField.value = baseNodeSO.name;
+				nameTextField.RegisterValueChangedCallback(evt => {
+					baseNodeSO.name = evt.newValue;
+					EditorUtility.SetDirty(baseNodeSO);
+					AssetDatabase.SaveAssets();
+				});
+				titleContainer.Insert(1, nameTextField);
+			}
 
-			// 메인 컨테이너
-			var container = new VisualElement();
-			container.style.paddingLeft = 8;
-			container.style.paddingRight = 8;
+			// 필드 컨테이너
+			{
+				var fieldContainer = new VisualElement();
+				fieldContainer.name = "fieldContainer";
+				fieldContainer.style.paddingLeft = 8;
+				fieldContainer.style.paddingRight = 8;
 
-			TextField nameInputField = new TextField("Name");
-			nameInputField.isDelayed = true;
-			nameInputField.value = baseNodeSO.name;
-			nameInputField.RegisterValueChangedCallback(evt => {
-				baseNodeSO.name = evt.newValue;
-				EditorUtility.SetDirty(baseNodeSO);
-				AssetDatabase.SaveAssets();
-			});
-			container.Add(nameInputField);
+				FieldDrawer.DrawFieldElements(baseNodeSO, fieldContainer);
+				this.mainContainer.Add(fieldContainer);
+			}
 
-			CreateFieldElements(baseNodeSO, container);
+			// 기타 노드 요소
+			{
+				DrawPorts();
+				StyleLoader.AddStyles(this, "NodeViewStyles");
+			}
 
-			Label titleLebel = new Label(this.title);
-			titleLebel.style.paddingLeft = 8;
-			titleLebel.style.paddingRight = 8;
-
-			this.titleContainer.Add(titleLebel);
-			this.mainContainer.Add(container);
-
-			Outputs = new Port[baseNodeSO.GetOutputPortCount()];
-
-			CreatePorts();
+			// Tooltip
+			{
+				CheckNodeError();
+				CheckNodeWarning();
+				UpdateTooltip();
+			}
 
 			return this;
 		}
 
 		private void HandleValueChanged()
 		{
-			this.tooltip = BaseNodeSO.GetTooltip();
+			CheckNodeError();
+			CheckNodeWarning();
+			UpdateTooltip();
 		}
 
-		private void CreateFieldElements(GeneralNodeSO baseNodeSO, VisualElement container)
+		private void CheckNodeError()
 		{
-			// SerializedObject 생성
-			SerializedObject soSerialized = new SerializedObject(baseNodeSO);
-			var iterator = soSerialized.GetIterator();
-
-			if (iterator.NextVisible(true))
+			if (BaseNodeSO.IsError() == true)
 			{
-				do
-				{
-					if (IsCanRender(iterator.name, baseNodeSO) == false) continue;
-
-					PropertyField propField = new PropertyField(iterator.Copy());
-					propField.Bind(soSerialized);
-					container.Add(propField);
-				}
-				while (iterator.NextVisible(false));
+				AddToClassList("node-error");
+			}
+			else
+			{
+				if (ClassListContains("node-error"))
+					RemoveFromClassList("node-error");
 			}
 		}
-
-		private bool IsCanRender(string propertyName, GeneralNodeSO baseNodeSO)
+		private void CheckNodeWarning()
 		{
-			Type nodeType = baseNodeSO.GetType();
-
-			if (nodeType.IsDefined(typeof(RegisterNodeAttribute), false)
-				&& propertyName == "m_Script") return false; // 에디터 자체 정의 노드는 렌더링하지 않음
-
-			FieldInfo fieldInfo = GetAnyField(nodeType, propertyName);
-
-			if (fieldInfo != null)
+			if (BaseNodeSO.IsWarning() == true)
 			{
-				if (fieldInfo.IsDefined(typeof(HideInEditorWindowAttribute), false))
-				{
-					return false;
-				}
+				AddToClassList("node-warning");
 			}
-			
-			return true;
-		}
-
-		private	FieldInfo GetAnyField(Type type, string name)
-		{
-			while (type != null)
+			else
 			{
-				var field = type.GetField(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-				if (field != null)
-					return field;
-				type = type.BaseType;
+				if (ClassListContains("node-warning"))
+					RemoveFromClassList("node-warning");
 			}
-			return null;
 		}
-
-		private void CreatePorts()
+		private void UpdateTooltip()
 		{
-			CreateInputPort();
-			CreateOutputPorts();
+			this.tooltip = BaseNodeSO.IsError() ? BaseNodeSO.GetErrorText() : BaseNodeSO.IsWarning() ? BaseNodeSO.GetWarningText() : BaseNodeSO.GetTooltipText();
+		}
+		
+		private void DrawPorts()
+		{
+			DrawInputPort();
+			DrawOutputPorts();
 
 			RefreshPorts();
 			RefreshExpandedState();
 		}
-
-		private void CreateInputPort()
+		private void DrawInputPort()
 		{
 			// Input은 하나만!
-			Input = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(PortTypes.FlowPort));
+			Input = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
 
 			Input.name = $"{BaseNodeSO.GUID}_Input";
 			Input.portName = string.Empty;
 
 			inputContainer.Add(Input);
 		}
-
-		private void CreateOutputPorts()	
+		private void DrawOutputPorts()	
 		{
+			Outputs = new Port[BaseNodeSO.GetOutputPortCount()];
+
 			for (int i = 0; i < BaseNodeSO.GetOutputPortCount(); i++)
 			{
-				Outputs[i] = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(PortTypes.FlowPort));
+				Outputs[i] = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
 
 				Outputs[i].name = $"{BaseNodeSO.GUID}_Output_{i}";
 				Outputs[i].portName = BaseNodeSO.GetOutputPortsNames()[i];
@@ -181,14 +166,14 @@ namespace Crogen.CrogenDialog.Editor.NodeView
 				}
 			}
 
-			StorytellerSO.RemoveNode(BaseNodeSO);
+			StorytellerBaseSO.RemoveNode(BaseNodeSO);
 		}
 
 		public void OnMove()
 		{
 			BaseNodeSO.Position = GetPosition().position;
 
-			EditorUtility.SetDirty(StorytellerSO);
+			EditorUtility.SetDirty(StorytellerBaseSO);
 		}
 
 		public override bool IsResizable() => false;

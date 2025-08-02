@@ -9,28 +9,40 @@ namespace Crogen.CrogenDialogue
 	public class StorytellerBaseSO : ScriptableObject
 	{
 		[field: SerializeField] public BillboardSO Billboard { get; private set; }
-		[field: SerializeField] public GeneralNodeSO StartNode { get; set; }
-		[field: SerializeField] public List<GeneralNodeSO> NodeList { get; private set; } = new List<GeneralNodeSO>();
+		[field: SerializeField] public NodeSO StartNode { get; set; }
+		[field: SerializeField] public List<NodeSO> NodeList { get; private set; } = new List<NodeSO>();
 
-		public Dictionary<string, GeneralNodeSO> NodeDictionary { get; private set; } = new();
+		public Dictionary<string, NodeSO> NodeDictionary { get; private set; } = new();
+
+		public bool IsError()
+		{
+			for (int i = 0; i < NodeList.Count; i++)
+			{
+				if (NodeList[i].IsError())
+					return true;
+			}
+
+			return false;
+		}
 
 #if UNITY_EDITOR
-		public GeneralNodeSO AddNewNode(System.Type type, Vector2 position)
+		public NodeSO AddNewNode(System.Type type, Vector2 position)
 		{
-			var nodeData = ScriptableObject.CreateInstance(type) as GeneralNodeSO;
+			var nodeData = ScriptableObject.CreateInstance(type) as NodeSO;
 			nodeData.GUID = UnityEditor.GUID.Generate().ToString();
 			nodeData.Position = position;
+			nodeData.StorytellerBaseSO = this;
 
 			NodeList.Add(nodeData);
 
-			UnityEditor.AssetDatabase.AddObjectToAsset(nodeData, this); // 이러면 story 내부에 묶임
+			UnityEditor.AssetDatabase.AddObjectToAsset(nodeData, this); // 이러면 SO 하단에 묶임
 			UnityEditor.EditorUtility.SetDirty(this);
 			UnityEditor.AssetDatabase.SaveAssets();
 
 			return nodeData;
 		}
 
-		public void RemoveNode(GeneralNodeSO nodeSO)
+		public void RemoveNode(NodeSO nodeSO)
 		{
 			if (NodeList.Contains(nodeSO) == false) return;
 

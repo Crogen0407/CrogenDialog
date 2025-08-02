@@ -1,0 +1,60 @@
+/* 기본 뷰 설정 */
+#generalNodeView {
+    background-color:transparent;
+}
+
+/* 에러 표시 */
+#generalNodeView.node-error #title {
+    background-color:red !important;
+}
+
+/* 경고 표시 */
+#generalNodeView.node-warning #title {
+    background-color:#ffd119 !important;
+}
+
+/* 타이틀 영역 */
+#generalNodeView #title {
+    background-color:#20c997;
+    flex-direction:column;
+    flex-grow:1;
+    flex-shrink:0;
+    height:auto;
+    min-width:160px;
+}
+#generalNodeView #title #title-label {
+    -unity-font-style:bold;
+    color:white;
+    font-size:21px;
+}
+
+/* title container 자식 정렬 설정 */
+#generalNodeView #node-border {
+    flex-direction: column;
+    flex-grow:1;
+    flex-shrink:0;
+    overflow: visible;
+}
+
+/* 이름 입력 필드 */
+#title #nameTextField {
+    margin: 5px;
+}
+
+/* 노드 배경 */
+#node-border {
+    background-color:#2a2a2a;
+}
+
+/* 입출력 포트 배경 투명 */
+#contents #top #input,
+#contents #top #output {
+    background-color:transparent;
+}
+
+/* 타이틀 버튼 제거 */
+/* 상단 구분선 제거 */
+#title #title-button-container,
+#contents #top #divider {
+    display:none;
+}

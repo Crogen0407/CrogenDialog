@@ -3,18 +3,26 @@ using UnityEngine;
 namespace Crogen.CrogenDialogue.Nodes
 {
 	[RegisterNode]
-	public class GotoNodeSO : GeneralNodeSO
+	public class GotoNodeSO : NodeSO
 	{
-		[field: SerializeField] public GeneralNodeSO Destination { get; private set; }
+		[field: SerializeField] public NodeSO Destination { get; private set; }
 
 		public override string GetNodeName() => "Goto";
-		public override string GetTooltip() => $"{Destination?.name}부터 실행시킵니다.";
+		public override string GetTooltipText() => $"{Destination?.name}부터 실행시킵니다.";
+
+		public bool SelectFilter()
+		{
+			return true;
+		}
+
+		public override bool IsWarning() => Destination == null;
+		public override string GetWarningText() => "Destination이 null입니다.";
+
+		public override bool IsError() => Destination != null && Destination.StorytellerBaseSO != this.StorytellerBaseSO;
+		public override string GetErrorText() => $"\'{Destination.name}\'은(는) {StorytellerBaseSO.name}의 노드가 아닙니다.";
 
 		public override void Go(Storyteller storyteller)
 		{
-			for (int i = 0; i < NodeBlockList.Count; i++)
-				NodeBlockList[i]?.Go(this);
-
 			if (Destination == null)
 				for (int i = 0; i < NextNodes.Length; i++)
 					NextNodes[i]?.Go(storyteller);
