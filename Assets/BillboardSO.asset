@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Name>k__BackingField: 
-  <ValueType>k__BackingField: 0
+  <ValueType>k__BackingField: 3
   <IntValue>k__BackingField: 0
   <FloatValue>k__BackingField: 0
   <BoolValue>k__BackingField: 0
@@ -30,9 +30,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7b972f89235c0546a322ddf4518e7ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: 
+  <Name>k__BackingField: asdfasdfdfdfadfa
   <ValueType>k__BackingField: 0
-  <IntValue>k__BackingField: 0
+  <IntValue>k__BackingField: 10
   <FloatValue>k__BackingField: 0
   <BoolValue>k__BackingField: 0
   <StringValue>k__BackingField: 
@@ -52,7 +52,7 @@ MonoBehaviour:
   <ValueType>k__BackingField: 2
   <IntValue>k__BackingField: 0
   <FloatValue>k__BackingField: 0
-  <BoolValue>k__BackingField: 1
+  <BoolValue>k__BackingField: 0
   <StringValue>k__BackingField: 
 --- !u!114 &11400000
 MonoBehaviour:

@@ -55,6 +55,24 @@ MonoBehaviour:
   - {fileID: -5909957912866954020}
   <Position>k__BackingField: {x: 208, y: 0}
   message: "\uCC2C\uC6C5\uC9F1! \uC65C \uAC00\uB9CC\uD788 \uC788\uC5B4?"
+--- !u!114 &-6736821334191821867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3694e9b09e81cab4b8c7e9407bcafb24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <GUID>k__BackingField: 66e543f606fb45b47bfaaf30fa825472
+  <StorytellerBaseSO>k__BackingField: {fileID: 11400000}
+  NextNodes:
+  - {fileID: 0}
+  - {fileID: 0}
+  <Position>k__BackingField: {x: 450.80005, y: 207.00002}
 --- !u!114 &-5909957912866954020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,6 +150,25 @@ MonoBehaviour:
   - {fileID: -9117170864800563915}
   - {fileID: -2153943289823022691}
   - {fileID: -8210435721619291153}
+  - {fileID: 3403979917462928793}
+  - {fileID: -6736821334191821867}
+--- !u!114 &3403979917462928793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dce4cb48185a8b94b98338545268073b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <GUID>k__BackingField: 5aa7ac351f94eb34e87b570017209034
+  <StorytellerBaseSO>k__BackingField: {fileID: 11400000}
+  NextNodes:
+  - {fileID: 0}
+  <Position>k__BackingField: {x: 252.5975, y: 238.04999}
 --- !u!114 &5160316442215753326
 MonoBehaviour:
   m_ObjectHideFlags: 0
