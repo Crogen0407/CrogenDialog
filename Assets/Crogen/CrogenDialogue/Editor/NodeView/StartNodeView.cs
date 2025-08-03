@@ -1,4 +1,4 @@
-using Crogen.CrogenDialogue.Editor.Resources;
+using Crogen.CrogenDialogue.Editor.UTIL;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 

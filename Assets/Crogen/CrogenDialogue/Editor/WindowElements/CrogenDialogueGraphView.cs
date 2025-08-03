@@ -1,5 +1,4 @@
 using Crogen.CrogenDialogue.Editor.NodeView;
-using Crogen.CrogenDialogue.Editor.Resources;
 using Crogen.CrogenDialogue.Editor.UTIL;
 using Crogen.CrogenDialogue.Nodes;
 using System.Collections.Generic;
@@ -193,7 +192,9 @@ namespace Crogen.CrogenDialogue.Editor
 				{
 					if (targetNodes[i] == null) continue;
 					string guid = targetNodes[i].GUID;
-					var inputPort = (GetNodeByGuid(guid) as GeneralNodeView).Input;
+					var generalNodeView = (GetNodeByGuid(guid) as GeneralNodeView);
+					if (generalNodeView[i] == null) continue;
+					var inputPort = generalNodeView.Input;
 
 					var edge = new Edge()
 					{

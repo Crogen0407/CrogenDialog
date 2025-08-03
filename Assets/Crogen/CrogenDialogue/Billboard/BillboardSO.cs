@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Crogen.CrogenDialogue.Nodes;
+using NUnit.Framework.Interfaces;
+using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace Crogen.CrogenDialogue.Billboard
@@ -36,17 +39,19 @@ namespace Crogen.CrogenDialogue.Billboard
 
 		public void RemoveNode(BillboardValueSO valueSO)
 		{
-			if (valueSO != null)
-			{
-				if (ValueList.Contains(valueSO) == false) return;
-				ValueList.Remove(valueSO);
-			}
-			else
-			{
-				var lastValueData = ValueList[ValueList.Count - 1];
-				ValueList.Remove(lastValueData);
-			}
+			BillboardValueSO removedValueSO = valueSO != null ? valueSO : GetLastValueSO();
+			ValueList.Remove(removedValueSO);
+
+			UnityEditor.AssetDatabase.RemoveObjectFromAsset(removedValueSO);
+			DestroyImmediate(removedValueSO, true); // 완전히 메모리에서 제거
+			UnityEditor.AssetDatabase.SaveAssets();
+
+			UnityEditor.EditorUtility.SetDirty(this);
+			UnityEditor.AssetDatabase.SaveAssets();
 		}
+
+		public BillboardValueSO GetLastValueSO() 
+			=> ValueList[ValueList.Count - 1];
 #endif
 
 		public int GetIntValue(string name)

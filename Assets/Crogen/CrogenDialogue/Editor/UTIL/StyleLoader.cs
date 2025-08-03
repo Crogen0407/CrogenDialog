@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Crogen.CrogenDialogue.Editor.Resources
+namespace Crogen.CrogenDialogue.Editor.UTIL
 {
     public static class StyleLoader
     {

@@ -44,11 +44,11 @@ namespace Crogen.CrogenDialogue
 		{
 			if (NodeList.Contains(nodeSO) == false) return;
 
+			NodeList.Remove(nodeSO);
+
 			UnityEditor.AssetDatabase.RemoveObjectFromAsset(nodeSO);
 			DestroyImmediate(nodeSO, true); // 완전히 메모리에서 제거
 			UnityEditor.AssetDatabase.SaveAssets();
-
-			NodeList.Remove(nodeSO);
 
 			UnityEditor.EditorUtility.SetDirty(this);
 			UnityEditor.AssetDatabase.SaveAssets();

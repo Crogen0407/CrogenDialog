@@ -20,9 +20,7 @@ namespace Crogen.CrogenDialogue.Editor.UTIL
 				case SerializedPropertyType.ObjectReference:
 					return typeof(UnityEngine.Object);
 				case SerializedPropertyType.Enum:
-					// Enum은 좀 복잡하니까 밑에서 따로 설명할게!
 					break;
-					// 나머지도 필요하면 추가
 			}
 			return null;
 		}

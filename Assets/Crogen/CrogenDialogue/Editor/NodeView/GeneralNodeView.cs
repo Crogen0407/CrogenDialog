@@ -1,7 +1,3 @@
-using Crogen.CrogenDialogue;
-using Crogen.CrogenDialogue.Editor;
-using Crogen.CrogenDialogue.Editor.NodeView;
-using Crogen.CrogenDialogue.Editor.Resources;
 using Crogen.CrogenDialogue.Editor.UTIL;
 using Crogen.CrogenDialogue.Nodes;
 using System.Linq;

@@ -1,4 +1,3 @@
-using Crogen.CrogenDialogue.Editor.Resources;
 using Crogen.CrogenDialogue.Editor.UTIL;
 using UnityEditor;
 using UnityEngine;
@@ -39,9 +38,11 @@ namespace Crogen.CrogenDialogue.Editor
 			CrogenDialogueGraphView graphView = new CrogenDialogueGraphView().Initialize(this, storytellerBaseSO);
 			root.Add(graphView);
 
-			CrogenDialogueInspectorView inspectorView = new CrogenDialogueInspectorView().Initialize(storytellerBaseSO);
-			root.Add(inspectorView);
-
+			if (storytellerBaseSO.Billboard != null)
+			{
+				CrogenDialogueBillboardView billboardView = new CrogenDialogueBillboardView().Initialize(storytellerBaseSO);
+				root.Add(billboardView);
+			}
 		}
 	}
 }

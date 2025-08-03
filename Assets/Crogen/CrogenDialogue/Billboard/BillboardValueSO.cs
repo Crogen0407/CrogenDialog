@@ -7,7 +7,7 @@ namespace Crogen.CrogenDialogue.Billboard
 	[RegisterScript]
 	public class BillboardValueSO : ScriptableObject
 	{
-		[field: SerializeField, HideInEditorWindow] public string Name { get; set; }
+		[field: SerializeField, HideInEditorWindow] public string Name { get; set; } = string.Empty;
 		[field: SerializeField, HideInEditorWindow] public EBillboardValueType ValueType { get; set; }
 		[field: SerializeField] public int IntValue { get; set; }
 		[field: SerializeField] public float FloatValue { get; set; }
