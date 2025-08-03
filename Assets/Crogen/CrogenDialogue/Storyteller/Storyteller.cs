@@ -1,4 +1,3 @@
-using Crogen.CrogenDialogue.Billboard;
 using Crogen.CrogenDialogue.UI;
 using UnityEngine;
 
@@ -8,7 +7,13 @@ namespace Crogen.CrogenDialogue
     {
         [field: SerializeField] public StorytellerBaseSO StorytellerBase { get; private set; }
 		[field: SerializeField] public bool StartAndGo { get; private set; } = false;
-		public TalkPanel DialogueUI { get; private set; }
+		[field: SerializeField] private TalkPanel _talkPanel;
+		[field: SerializeField] private ChoiceContainer _choiceContainer;
+
+		// 강제 대화 완료
+		public bool IsTalkComplete { get => _talkPanel.IsTalkComplete; set => _talkPanel.IsTalkComplete = value; }
+		public bool IsChoiceComplete => _choiceContainer.IsChoiceComplete;
+		public int ChoiceIndex => _choiceContainer.ChoiceIndex;
 
 		private void Start()
 		{
@@ -39,10 +44,20 @@ namespace Crogen.CrogenDialogue
 			return true;
 		}
 
-		public void SetTalk(string name, string talk)
+		public void SetTalkText(string name, string talk)
 		{
-
+			_talkPanel.gameObject.SetActive(true);
+			_talkPanel.SetTalkText(name, talk);
 		}
+
+		public void SetChoices(string[] choices)
+		{
+			_choiceContainer.SetActiveChoicePanels(true);
+			_choiceContainer.SetChoices(choices);
+		}
+
+		public void SetActiveTalkPanel(bool active) => _talkPanel.gameObject.SetActive(active);
+		public void SetActiveChoicePanels(bool active) => _choiceContainer.SetActiveChoicePanels(active);
 
 		private void OnDestroy()
 		{

@@ -1,5 +1,4 @@
 using Crogen.CrogenDialogue.Billboard;
-using System;
 using UnityEngine;
 
 namespace Crogen.CrogenDialogue.Nodes

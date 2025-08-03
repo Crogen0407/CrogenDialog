@@ -9,26 +9,41 @@ namespace Crogen.CrogenDialogue.UI
         [SerializeField] private TextMeshProUGUI _nameText;
         [SerializeField] private TextMeshProUGUI _talkText;
 
-        public void SetNameText(string text)
-        {
-            this._nameText.text = text;
-		}
-
-        public void SetTalkText(string text)
-        {
-            StopAllCoroutines();
-            StartCoroutine(CoroutineSetTalkText(text));
+        private bool _isTalkComplete;
+		public bool IsTalkComplete 
+        { 
+            get => _isTalkComplete;
+            set 
+            {
+                StopAllCoroutines();
+                _talkText.text = _talk;
+				_isTalkComplete = value;
+            }
         }
 
-        private IEnumerator CoroutineSetTalkText(string text)
+        private string _talk;
+
+		public void SetTalkText(string name, string talk)
+        {
+            IsTalkComplete = false;
+			this._nameText.text = name;
+            this._talk = talk;
+
+			StopAllCoroutines();
+            StartCoroutine(CoroutineSetTalkText(talk));
+        }
+
+        private IEnumerator CoroutineSetTalkText(string talk)
         {
             _talkText.text = string.Empty;
 
-            for (int i = 0; i < text.Length; i++)
+            for (int i = 0; i < talk.Length; i++)
             {
-                _talkText.text += text[i];
+                _talkText.text += talk[i];
                 yield return new WaitForSeconds(0.1f);
-            }
+			}
+
+            IsTalkComplete = true;
 		}
     }
 }

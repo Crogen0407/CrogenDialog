@@ -56,7 +56,7 @@ namespace Crogen.CrogenDialogue.Editor.NodeView
 
 			// 기타 노드 요소
 			{
-				DrawPorts();
+				UpdatePorts();
 				StyleLoader.AddStyles(this, "NodeViewStyles");
 			}
 
@@ -79,34 +79,20 @@ namespace Crogen.CrogenDialogue.Editor.NodeView
 
 		private void CheckNodeError()
 		{
-			if (BaseNodeSO.IsError() == true)
-			{
-				AddToClassList("node-error");
-			}
-			else
-			{
-				if (ClassListContains("node-error"))
-					RemoveFromClassList("node-error");
-			}
+			if (BaseNodeSO.IsError() == true) AddToClassList("node-error");
+			else RemoveFromClassList("node-error");
 		}
 		private void CheckNodeWarning()
 		{
-			if (BaseNodeSO.IsWarning() == true)
-			{
-				AddToClassList("node-warning");
-			}
-			else
-			{
-				if (ClassListContains("node-warning"))
-					RemoveFromClassList("node-warning");
-			}
+			if (BaseNodeSO.IsWarning() == true) AddToClassList("node-warning");
+			else RemoveFromClassList("node-warning");
 		}
 		private void UpdateTooltip()
 		{
 			this.tooltip = BaseNodeSO.IsError() ? BaseNodeSO.GetErrorText() : BaseNodeSO.IsWarning() ? BaseNodeSO.GetWarningText() : BaseNodeSO.GetTooltipText();
 		}
 		
-		private void DrawPorts()
+		private void UpdatePorts()
 		{
 			DrawInputPort();
 			DrawOutputPorts();

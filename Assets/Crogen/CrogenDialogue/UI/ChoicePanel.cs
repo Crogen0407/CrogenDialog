@@ -10,6 +10,7 @@ namespace Crogen.CrogenDialogue.UI
         [SerializeField] private TextMeshProUGUI _choiceText;
         [SerializeField] private Button _button;
         private ChoiceContainer _choiceContainer;
+        private int _choiceIndex;
 
 		public void Initialize(ChoiceContainer choiceContainer)
         {
@@ -17,10 +18,13 @@ namespace Crogen.CrogenDialogue.UI
 			_button.onClick.AddListener(HandleChoiseSelectComplete);
 		}
 
-		public void SetText(string text) 
-            => _choiceText.text = text;
+		public void SetText(string text, int index)
+        {
+            _choiceIndex = index;
+            _choiceText.text = text;
+		}
 
-		private void HandleChoiseSelectComplete() 
-            => _choiceContainer.ChoiseSelectComplete();
+		private void HandleChoiseSelectComplete()
+			=> _choiceContainer.ChoiseSelectComplete(_choiceIndex);
 	}
 }

@@ -6,29 +6,50 @@ namespace Crogen.CrogenDialogue
 {
     public class ChoiceContainer : MonoBehaviour
     {
-		public event Action OnChoiseSelectCompleteEvent;
-        [SerializeField] private ChoicePanel[] _choisePanels;
+		public bool IsChoiceComplete { get; private set; }
+		public int ChoiceIndex { get; private set; }
+        [SerializeField] private ChoicePanel[] _choicePanels;
+		private CanvasGroup _canvasGroup;
 
 		private void Awake()
 		{
-			for (int i = 0; i < _choisePanels.Length; i++)
-				_choisePanels[i].Initialize(this);
+			_canvasGroup = GetComponent<CanvasGroup>();
+
+			for (int i = 0; i < _choicePanels.Length; i++)
+				_choicePanels[i].Initialize(this);
+		}
+
+		public void SetActiveChoicePanels(bool active)
+		{
+			if (active)
+			{
+				_canvasGroup.alpha = 1;
+			}
+			else
+			{
+				_canvasGroup.alpha = 0;
+			}
+			_canvasGroup.interactable = active;
+			_canvasGroup.blocksRaycasts = active;
 		}
 
 		/// <summary>
 		/// 선택지는 최대 5개입니다.
 		/// </summary>
-		public void SetChoises(string[] choises)
+		public void SetChoices(string[] choices)
         {
-            for (int i = 0; i < choises.Length; i++)
+            for (int i = 0; i < choices.Length; i++)
             {
-                _choisePanels[i].SetText(choises[i]);
+                _choicePanels[i].SetText(choices[i], i);
 			}
 		}
 
-		public void ChoiseSelectComplete()
+		public void ChoiseSelectComplete(int choiceIndex)
 		{
-			OnChoiseSelectCompleteEvent?.Invoke();
+			IsChoiceComplete = true;
+			ChoiceIndex = choiceIndex;
+
+			SetActiveChoicePanels(false);
 		}
 	}
 }

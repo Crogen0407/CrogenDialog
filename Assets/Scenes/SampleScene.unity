@@ -119,6 +119,41 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &165573347
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 165573348}
+  m_Layer: 5
+  m_Name: CharacterContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &165573348
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165573347}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 501397941}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &366527344
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,8 +520,9 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1262644527}
   - {fileID: 1606183658}
+  - {fileID: 1262644527}
+  - {fileID: 165573348}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -798,6 +834,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <StorytellerBase>k__BackingField: {fileID: 11400000, guid: 23afbec681f52ad4b9aac9abb1d4fd1e, type: 2}
   <StartAndGo>k__BackingField: 1
+  _talkPanel: {fileID: 1606183661}
+  _choiceContainer: {fileID: 1262644528}
 --- !u!4 &558596490
 Transform:
   m_ObjectHideFlags: 0
@@ -1123,7 +1161,7 @@ GameObject:
   - component: {fileID: 769528827}
   - component: {fileID: 769528826}
   m_Layer: 5
-  m_Name: ChoicePanel (0)
+  m_Name: ChoicePanel (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1470,6 +1508,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1262644527}
   - component: {fileID: 1262644528}
+  - component: {fileID: 1262644529}
   m_Layer: 5
   m_Name: ChoiceContainer
   m_TagString: Untagged
@@ -1489,11 +1528,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 769528823}
-  - {fileID: 1981421319}
-  - {fileID: 659426994}
-  - {fileID: 1826208682}
   - {fileID: 1975055234}
+  - {fileID: 1826208682}
+  - {fileID: 659426994}
+  - {fileID: 1981421319}
+  - {fileID: 769528823}
   m_Father: {fileID: 501397941}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1513,12 +1552,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9306bd78f6f811043916b670450d9ec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _choisePanels:
-  - {fileID: 769528826}
-  - {fileID: 1981421320}
-  - {fileID: 659426995}
-  - {fileID: 1826208683}
+  _choicePanels:
   - {fileID: 1975055235}
+  - {fileID: 1826208683}
+  - {fileID: 659426995}
+  - {fileID: 1981421320}
+  - {fileID: 769528826}
+--- !u!225 &1262644529
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262644526}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1463810747
 GameObject:
   m_ObjectHideFlags: 0
@@ -1954,7 +2005,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1606183657}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdd5bfff4e3bf6245a258fe36beb9101, type: 3}
+  m_Script: {fileID: 11500000, guid: 2dc728ba86a918c439621a987d20c1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _nameText: {fileID: 432269153}
@@ -1973,7 +2024,7 @@ GameObject:
   - component: {fileID: 1826208684}
   - component: {fileID: 1826208683}
   m_Layer: 5
-  m_Name: ChoicePanel (3)
+  m_Name: ChoicePanel (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2245,7 +2296,7 @@ GameObject:
   - component: {fileID: 1975055236}
   - component: {fileID: 1975055235}
   m_Layer: 5
-  m_Name: ChoicePanel (4)
+  m_Name: ChoicePanel (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2381,7 +2432,7 @@ GameObject:
   - component: {fileID: 1981421321}
   - component: {fileID: 1981421320}
   m_Layer: 5
-  m_Name: ChoicePanel (1)
+  m_Name: ChoicePanel (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

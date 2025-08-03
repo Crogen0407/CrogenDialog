@@ -11,7 +11,7 @@ namespace Crogen.CrogenDialogue.Nodes
 		[field: SerializeField, HideInEditorWindow] public Vector2 Position { get; set; }
 
 		public virtual string[] GetOutputPortsNames() => new[] { string.Empty };
-		public virtual int GetOutputPortCount()=> 1;
+		public virtual int GetOutputPortCount() => 1;
 		public abstract string GetNodeName();
 		public abstract string GetTooltipText();
 
@@ -39,8 +39,7 @@ namespace Crogen.CrogenDialogue.Nodes
 
 		public virtual void Go(Storyteller storyteller)
 		{
-			for (int i = 0; i < NextNodes.Length; i++)
-				NextNodes[i]?.Go(storyteller);
+			NextNodes[0]?.Go(storyteller);
 		}
 	}
 }
