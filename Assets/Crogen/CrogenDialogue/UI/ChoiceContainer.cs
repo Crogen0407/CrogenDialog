@@ -1,36 +1,20 @@
 using Crogen.CrogenDialogue.UI;
-using System;
 using UnityEngine;
 
 namespace Crogen.CrogenDialogue
 {
-    public class ChoiceContainer : MonoBehaviour
-    {
+    public class ChoiceContainer : DialogueContainer
+	{
 		public bool IsChoiceComplete { get; private set; }
 		public int ChoiceIndex { get; private set; }
-        [SerializeField] private ChoicePanel[] _choicePanels;
-		private CanvasGroup _canvasGroup;
+        [SerializeField] private ChoiceElementPanel[] _choicePanels;
 
-		private void Awake()
+		protected override void Awake()
 		{
-			_canvasGroup = GetComponent<CanvasGroup>();
+			base.Awake();
 
 			for (int i = 0; i < _choicePanels.Length; i++)
 				_choicePanels[i].Initialize(this);
-		}
-
-		public void SetActiveChoicePanels(bool active)
-		{
-			if (active)
-			{
-				_canvasGroup.alpha = 1;
-			}
-			else
-			{
-				_canvasGroup.alpha = 0;
-			}
-			_canvasGroup.interactable = active;
-			_canvasGroup.blocksRaycasts = active;
 		}
 
 		/// <summary>
@@ -38,6 +22,7 @@ namespace Crogen.CrogenDialogue
 		/// </summary>
 		public void SetChoices(string[] choices)
         {
+			SetActive(true);
             for (int i = 0; i < choices.Length; i++)
             {
                 _choicePanels[i].SetText(choices[i], i);
@@ -49,7 +34,7 @@ namespace Crogen.CrogenDialogue
 			IsChoiceComplete = true;
 			ChoiceIndex = choiceIndex;
 
-			SetActiveChoicePanels(false);
+			SetActive(false);
 		}
 	}
 }

@@ -42,7 +42,7 @@ namespace Crogen.CrogenDialogue.Nodes
 
 		public override void Go(Storyteller storyteller)
 		{
-			storyteller.SetChoices(_choices);
+			storyteller.ChoiceContainer.SetChoices(_choices);
 			storyteller.StartCoroutine(CoroutineNextGo(storyteller));
 		}
 

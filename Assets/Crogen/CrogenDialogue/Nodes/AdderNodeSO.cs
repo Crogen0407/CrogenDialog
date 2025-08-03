@@ -1,8 +1,7 @@
 using Crogen.CrogenDialogue.Billboard;
-using Crogen.CrogenDialogue.Nodes;
 using UnityEngine;
 
-namespace Crogen.CrogenDialogue
+namespace Crogen.CrogenDialogue.Nodes
 {
 	[CrogenRegisterScript]
     public class AdderNodeSO : NodeSO

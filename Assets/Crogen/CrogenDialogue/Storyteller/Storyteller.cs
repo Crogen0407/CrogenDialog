@@ -1,4 +1,6 @@
+using Crogen.CrogenDialogue.Character;
 using Crogen.CrogenDialogue.UI;
+using System;
 using UnityEngine;
 
 namespace Crogen.CrogenDialogue
@@ -7,13 +9,16 @@ namespace Crogen.CrogenDialogue
     {
         [field: SerializeField] public StorytellerBaseSO StorytellerBase { get; private set; }
 		[field: SerializeField] public bool StartAndGo { get; private set; } = false;
-		[field: SerializeField] private TalkPanel _talkPanel;
-		[field: SerializeField] private ChoiceContainer _choiceContainer;
+
+		// UI
+		[field: SerializeField] public TalkContainer TalkContainer { get; private set; }
+		[field: SerializeField] public ChoiceContainer ChoiceContainer { get; private set; }
+		[field: SerializeField] public CharacterContainer CharacterCotainer { get; private set; }
 
 		// 강제 대화 완료
-		public bool IsTalkComplete { get => _talkPanel.IsTalkComplete; set => _talkPanel.IsTalkComplete = value; }
-		public bool IsChoiceComplete => _choiceContainer.IsChoiceComplete;
-		public int ChoiceIndex => _choiceContainer.ChoiceIndex;
+		public bool IsTalkComplete { get => TalkContainer.IsTalkComplete; set => TalkContainer.IsTalkComplete = value; }
+		public bool IsChoiceComplete => ChoiceContainer.IsChoiceComplete;
+		public int ChoiceIndex => ChoiceContainer.ChoiceIndex;
 
 		private void Start()
 		{
@@ -23,41 +28,40 @@ namespace Crogen.CrogenDialogue
 
 		public bool Go()
         {
-			if (StorytellerBase.StartNode == null)
-			{
-				Debug.LogError("Start node is empty!");
-				return false;
-			}
-			if (StorytellerBase.IsError() == true)
-			{
-				Debug.LogError("StorytellerBase is error!");
-				return false;
-			}
+			if (CheckError() == true) return false;
 
 			for (int i = 0; i < StorytellerBase.Billboard.Count; i++)
 			{
 				StorytellerBase.Billboard[i].SaveDefaultValues();
 			}
-			
+
+			UIInitialize();
+
 			StorytellerBase.StartNode.Go(this);
 
 			return true;
 		}
 
-		public void SetTalkText(string name, string talk)
+		private bool CheckError()
 		{
-			_talkPanel.gameObject.SetActive(true);
-			_talkPanel.SetTalkText(name, talk);
+			if (StorytellerBase.StartNode == null)
+			{
+				Debug.LogError("Start node is empty!");
+				return true;
+			}
+			if (StorytellerBase.IsError() == true)
+			{
+				Debug.LogError("StorytellerBase is error!");
+				return true;
+			}
+
+			return false;
 		}
 
-		public void SetChoices(string[] choices)
+		private void UIInitialize()
 		{
-			_choiceContainer.SetActiveChoicePanels(true);
-			_choiceContainer.SetChoices(choices);
+			ChoiceContainer.SetActive(false);
 		}
-
-		public void SetActiveTalkPanel(bool active) => _talkPanel.gameObject.SetActive(active);
-		public void SetActiveChoicePanels(bool active) => _choiceContainer.SetActiveChoicePanels(active);
 
 		private void OnDestroy()
 		{

@@ -1,11 +1,10 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Crogen.CrogenDialogue.UI
 {
-    public class ChoicePanel : MonoBehaviour
+    public class ChoiceElementPanel : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _choiceText;
         [SerializeField] private Button _button;

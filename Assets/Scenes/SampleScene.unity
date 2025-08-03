@@ -128,6 +128,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 165573348}
+  - component: {fileID: 165573349}
+  - component: {fileID: 165573350}
   m_Layer: 5
   m_Name: CharacterContainer
   m_TagString: Untagged
@@ -154,6 +156,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &165573349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165573347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61c1098649fa8a9488be9095acf6cd63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!225 &165573350
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165573347}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &366527344
 GameObject:
   m_ObjectHideFlags: 0
@@ -834,8 +860,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <StorytellerBase>k__BackingField: {fileID: 11400000, guid: 23afbec681f52ad4b9aac9abb1d4fd1e, type: 2}
   <StartAndGo>k__BackingField: 1
-  _talkPanel: {fileID: 1606183661}
-  _choiceContainer: {fileID: 1262644528}
+  <TalkContainer>k__BackingField: {fileID: 1606183661}
+  <ChoiceContainer>k__BackingField: {fileID: 1262644528}
+  <CharacterCotainer>k__BackingField: {fileID: 165573349}
 --- !u!4 &558596490
 Transform:
   m_ObjectHideFlags: 0
@@ -1930,8 +1957,9 @@ GameObject:
   - component: {fileID: 1606183660}
   - component: {fileID: 1606183659}
   - component: {fileID: 1606183661}
+  - component: {fileID: 1606183662}
   m_Layer: 5
-  m_Name: DialoguePanel
+  m_Name: TalkContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2005,11 +2033,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1606183657}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dc728ba86a918c439621a987d20c1eb, type: 3}
+  m_Script: {fileID: 11500000, guid: e9e26937404903c4982422349b615cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _nameText: {fileID: 432269153}
   _talkText: {fileID: 801482783}
+--- !u!225 &1606183662
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606183657}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1826208681
 GameObject:
   m_ObjectHideFlags: 0

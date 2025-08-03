@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Crogen.CrogenDialogue.UI
 {
-    public class TalkPanel : MonoBehaviour
-    {
+    public class TalkContainer : DialogueContainer
+	{
         [SerializeField] private TextMeshProUGUI _nameText;
         [SerializeField] private TextMeshProUGUI _talkText;
 
@@ -25,6 +25,7 @@ namespace Crogen.CrogenDialogue.UI
 
 		public void SetTalkText(string name, string talk)
         {
+            SetActive(true);
             IsTalkComplete = false;
 			this._nameText.text = name;
             this._talk = talk;
@@ -39,8 +40,8 @@ namespace Crogen.CrogenDialogue.UI
 
             for (int i = 0; i < talk.Length; i++)
             {
-                _talkText.text += talk[i];
                 yield return new WaitForSeconds(0.1f);
+                _talkText.text += talk[i];
 			}
 
             IsTalkComplete = true;

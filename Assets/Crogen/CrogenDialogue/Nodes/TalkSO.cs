@@ -16,7 +16,7 @@ namespace Crogen.CrogenDialogue.Nodes
 
 		public override void Go(Storyteller storyteller)
 		{
-			storyteller.SetTalkText(nameText, talkText);
+			storyteller.TalkContainer.SetTalkText(nameText, talkText);
 			storyteller.StartCoroutine(CoroutineNextGo(storyteller));
 		}
 
@@ -29,7 +29,7 @@ namespace Crogen.CrogenDialogue.Nodes
 			yield return null;
 			yield return new WaitUntil(() => Input.GetKeyDown(KeyCode));
 			if (NextNodes[0] != null && NextNodes[0] is not TalkSO)
-				storyteller.SetActiveTalkPanel(false);
+				storyteller.TalkContainer.SetActive(false);
 			base.Go(storyteller);
 		}
 	}
