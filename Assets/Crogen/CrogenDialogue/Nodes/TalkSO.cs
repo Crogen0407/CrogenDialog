@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Crogen.CrogenDialogue.Nodes
 {
-	[RegisterScript]
+	[CrogenRegisterScript]
 	public class TalkSO : NodeSO
 	{
 		[field: SerializeField] public string Name { get; private set; }

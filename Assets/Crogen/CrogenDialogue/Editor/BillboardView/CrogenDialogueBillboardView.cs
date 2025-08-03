@@ -20,7 +20,7 @@ namespace Crogen.CrogenDialogue.Editor
 				for (int i = 0; i < _billboardValueViewList.Count; i++)
 				{
 					_billboardValueViewList[i].style.backgroundColor = 
-						value == _billboardValueViewList[i].BillboardValueSO ? Color.green : Color.clear;
+						value == _billboardValueViewList[i].BillboardValueSO ? ColorPalette.selectedColor : Color.clear;
 				}
 
 			}
@@ -42,8 +42,8 @@ namespace Crogen.CrogenDialogue.Editor
 			{
 				fieldContainer = new ScrollView();
 				fieldContainer.name = "fieldContainer";
-				fieldContainer.style.minWidth = 250;
-				fieldContainer.style.maxWidth = 250;
+				fieldContainer.style.minWidth = 300;
+				fieldContainer.style.maxWidth = 300;
 				fieldContainer.style.flexGrow = 1;
 				fieldContainer.style.flexShrink = 1;
 				fieldContainer.style.overflow = Overflow.Visible; // 이건 선택이야. 기본 스크롤만 써도 됨

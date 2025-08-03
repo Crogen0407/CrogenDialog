@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Crogen.CrogenDialogue.Nodes
 {
-	[RegisterScript] // 기본 노드라는 뜻. 사용자는 이거 붙힐 필요없음
+	[CrogenRegisterScript] // 기본 노드라는 뜻. 사용자는 이거 붙힐 필요없음
 	public class DebugNodeSO : NodeSO
 	{
 		[TextArea, Delayed] public string message;

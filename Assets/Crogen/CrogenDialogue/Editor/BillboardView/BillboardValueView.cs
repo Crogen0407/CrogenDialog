@@ -38,8 +38,8 @@ namespace Crogen.CrogenDialogue.Editor
 					CheckValueDisplay(BillboardValueSO);
 				});
 
-				typeEnumField.style.minWidth = 60;
-				typeEnumField.style.maxWidth = 60;
+				typeEnumField.style.minWidth = 70;
+				typeEnumField.style.maxWidth = 70;
 				valueElementContainer.Add(typeEnumField);
 			}
 
@@ -48,10 +48,12 @@ namespace Crogen.CrogenDialogue.Editor
 				TextField nameTextField = new TextField();
 				nameTextField.name = "nameTextField";
 				nameTextField.isDelayed = true;
-				nameTextField.value = BillboardValueSO.Name;
+				nameTextField.value = BillboardValueSO.name;
 				nameTextField.maxLength = 16;
 				nameTextField.RegisterValueChangedCallback(evt => {
-					BillboardValueSO.Name = evt.newValue;
+					BillboardValueSO.name = evt.newValue;
+					EditorUtility.SetDirty(BillboardValueSO);
+					AssetDatabase.SaveAssets();
 					CheckNameConflict(valueElementContainer, BillboardValueSO, billboardSO);
 				});
 				nameTextField.style.minWidth = 60;
@@ -61,28 +63,45 @@ namespace Crogen.CrogenDialogue.Editor
 
 			// 인수값 직렬화 필드
 			{
-				// SerializedObject 생성
 				SerializedObject soSerialized = new SerializedObject(BillboardValueSO);
-				var iterator = soSerialized.GetIterator();
+				SerializedProperty iterator = soSerialized.GetIterator();
 
 				if (iterator.NextVisible(true))
 				{
 					do
 					{
-						if (FieldDrawer.IsRenderableField(iterator.name, BillboardValueSO.GetType()) == false) continue;
+						// DefaultValues 안의 개별 필드들을 처리
+						if (iterator.name == "<BillBoardValues>k__BackingField")
+						{
+							var defaultValues = iterator.Copy();
 
-						PropertyField propField = new PropertyField(iterator.Copy());
-						propField.style.flexGrow = 1f;
-						propField.label = string.Empty;
-						propField.Bind(soSerialized);
-						_typeAndPropertyFieldList.Add((iterator.GetSystemTypeFromSerializedProperty(), propField));
-						valueElementContainer.Add(propField);
+							SerializedProperty innerProp = defaultValues.Copy();
+							SerializedProperty endProp = defaultValues.GetEndProperty();
+
+							while (innerProp.NextVisible(true) && !SerializedProperty.EqualContents(innerProp, endProp))
+							{
+								if (FieldDrawer.IsRenderableField(innerProp.name, innerProp.serializedObject.targetObject.GetType()) == false)
+									continue;
+
+								var propField = new PropertyField(innerProp.Copy())
+								{
+									style = { flexGrow = 1f },
+									label = string.Empty
+								};
+								propField.Bind(soSerialized);
+								_typeAndPropertyFieldList.Add((SerializedPropertyExtension.GetSystemTypeFromSerializedProperty(innerProp), propField));
+								valueElementContainer.Add(propField);
+							}
+
+							break;
+						}
 					}
 					while (iterator.NextVisible(false));
 				}
 
 				CheckValueDisplay(billboardValueSO);
 			}
+
 
 			Add(valueElementContainer);
 			CheckNameConflict(valueElementContainer, billboardValueSO, billboardSO);
@@ -93,7 +112,7 @@ namespace Crogen.CrogenDialogue.Editor
 		private void CheckValueDisplay(BillboardValueSO billboardValueSO)
 		{
 			foreach (var propertyFieldType in _typeAndPropertyFieldList)
-				propertyFieldType.Item2.style.display = billboardValueSO.GetValueType() != propertyFieldType.Item1 ? DisplayStyle.None : DisplayStyle.Flex;
+				propertyFieldType.Item2.style.display = BillBoardValues.GetValueType(billboardValueSO.ValueType) != propertyFieldType.Item1 ? DisplayStyle.None : DisplayStyle.Flex;
 		}
 
 		private void CheckNameConflict(VisualElement valueElementContainer, BillboardValueSO billboardValueSO, BillboardSO billboardSO)
@@ -102,8 +121,8 @@ namespace Crogen.CrogenDialogue.Editor
 
 			for (int i = 0; i < billboardSO.ValueList.Count; i++)
 			{
-				if (string.IsNullOrEmpty(billboardValueSO.Name)
-					|| (billboardValueSO != billboardSO.ValueList[i] && billboardSO.ValueList[i].Name.Equals(billboardValueSO.Name)))
+				if (string.IsNullOrEmpty(billboardValueSO.name)
+					|| (billboardValueSO != billboardSO.ValueList[i] && billboardSO.ValueList[i].name.Equals(billboardValueSO.name)))
 				{
 					isNameDuplicated = true;
 					break;

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Crogen.CrogenDialogue.Nodes
 {
-	[RegisterScript]
+	[CrogenRegisterScript]
 	public class GotoNodeSO : NodeSO
 	{
 		[field: SerializeField] public NodeSO Destination { get; private set; }

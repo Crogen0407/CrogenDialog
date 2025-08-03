@@ -117,7 +117,7 @@ namespace Crogen.CrogenDialogue.Editor.NodeView
 		private void DrawInputPort()
 		{
 			// Input은 하나만!
-			Input = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
+			Input = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(bool));
 
 			Input.name = $"{BaseNodeSO.GUID}_Input";
 			Input.portName = string.Empty;

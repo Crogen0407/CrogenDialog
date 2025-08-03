@@ -1,17 +1,19 @@
-﻿using Crogen.CrogenDialogue.Nodes;
-using NUnit.Framework.Interfaces;
+﻿using System;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace Crogen.CrogenDialogue.Billboard
 {
 	[CreateAssetMenu(fileName = nameof(BillboardSO), menuName = "CrogenDialogue/BillboardSO")]
-	[RegisterScript]
+	[CrogenRegisterScript]
     public class BillboardSO : ScriptableObject
     {
 		public List<BillboardValueSO> ValueList = new();
 		private Dictionary<string, BillboardValueSO> ValueDictionary { get; set; } = new();
+
+		public int Count => ValueList.Count;
+		public BillboardValueSO this[int index]
+			=> ValueList[index];
 
 		private void OnEnable()
 		{
@@ -21,7 +23,7 @@ namespace Crogen.CrogenDialogue.Billboard
 			ValueDictionary.Clear();
 			foreach (var value in ValueList)
 			{
-				ValueDictionary.TryAdd(value.Name, value);
+				ValueDictionary.TryAdd(value.name, value);
 			}
 		}
 
@@ -66,7 +68,7 @@ namespace Crogen.CrogenDialogue.Billboard
 				Debug.LogWarning("잘못된 값 타입");
 				return default;
 			}
-			return ValueDictionary[name].IntValue;
+			return ValueDictionary[name].BillBoardValues.IntValue;
 		}
 		public float GetFloatValue(string name)
 		{
@@ -80,7 +82,7 @@ namespace Crogen.CrogenDialogue.Billboard
 				Debug.LogWarning("잘못된 값 타입");
 				return default;
 			}
-			return ValueDictionary[name].FloatValue;
+			return ValueDictionary[name].BillBoardValues.FloatValue;
 		}
 		public string GetStringValue(string name)
 		{
@@ -94,7 +96,7 @@ namespace Crogen.CrogenDialogue.Billboard
 				Debug.LogWarning("잘못된 값 타입");
 				return default;
 			}
-			return ValueDictionary[name].StringValue;
+			return ValueDictionary[name].BillBoardValues.StringValue;
 		}
 		public bool GetBoolValue(string name)
 		{
@@ -108,7 +110,7 @@ namespace Crogen.CrogenDialogue.Billboard
 				Debug.LogWarning("잘못된 값 타입");
 				return default;
 			}
-			return ValueDictionary[name].BoolValue;
+			return ValueDictionary[name].BillBoardValues.BoolValue;
 		}
 
 		public void SetIntValue(int value)
@@ -123,7 +125,7 @@ namespace Crogen.CrogenDialogue.Billboard
 				Debug.LogWarning("잘못된 값 타입");
 				return;
 			}
-			ValueDictionary[name].IntValue = value;
+			ValueDictionary[name].BillBoardValues.IntValue = value;
 		}
 		public void SetFloatValue(float value)
 		{
@@ -137,7 +139,7 @@ namespace Crogen.CrogenDialogue.Billboard
 				Debug.LogWarning("잘못된 값 타입");
 				return;
 			}
-			ValueDictionary[name].FloatValue = value;
+			ValueDictionary[name].BillBoardValues.FloatValue = value;
 		}
 		public void SetStringValue(string value)
 		{
@@ -151,7 +153,7 @@ namespace Crogen.CrogenDialogue.Billboard
 				Debug.LogWarning("잘못된 값 타입");
 				return;
 			}
-			ValueDictionary[name].StringValue = value;
+			ValueDictionary[name].BillBoardValues.StringValue = value;
 		}
 		public void SetBoolValue(bool value)
 		{
@@ -165,7 +167,7 @@ namespace Crogen.CrogenDialogue.Billboard
 				Debug.LogWarning("잘못된 값 타입");
 				return;
 			}
-			ValueDictionary[name].BoolValue = value;
+			ValueDictionary[name].BillBoardValues.BoolValue = value;
 		}
 	}
 }

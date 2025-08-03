@@ -1,5 +1,6 @@
 using Crogen.CrogenDialogue.Billboard;
 using Crogen.CrogenDialogue.Nodes;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Crogen.CrogenDialogue
 	[CreateAssetMenu(fileName = nameof(StorytellerBaseSO), menuName = "CrogenDialogue/StorytellerBaseSO")]
 	public class StorytellerBaseSO : ScriptableObject
 	{
-		[field: SerializeField] public BillboardSO Billboard { get; private set; }
+		[field: SerializeField] public BillboardSO Billboard { get; set; }
 		[field: SerializeField] public NodeSO StartNode { get; set; }
 		[field: SerializeField] public List<NodeSO> NodeList { get; private set; } = new List<NodeSO>();
 

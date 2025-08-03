@@ -35,14 +35,17 @@ namespace Crogen.CrogenDialogue.Editor
 
 		private void AddViews(VisualElement root, StorytellerBaseSO storytellerBaseSO)
 		{
-			CrogenDialogueGraphView graphView = new CrogenDialogueGraphView().Initialize(this, storytellerBaseSO);
-			root.Add(graphView);
-
 			if (storytellerBaseSO.Billboard != null)
 			{
 				CrogenDialogueBillboardView billboardView = new CrogenDialogueBillboardView().Initialize(storytellerBaseSO);
 				root.Add(billboardView);
 			}
+
+			CrogenDialogueGraphView graphView = new CrogenDialogueGraphView().Initialize(this, storytellerBaseSO);
+			var graphViewContainer = new VisualElement();
+			graphViewContainer.style.flexGrow = 1;
+			graphViewContainer.Add(graphView);
+			root.Add(graphViewContainer);
 		}
 	}
 }

@@ -1,5 +1,26 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6625649933415510482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7b972f89235c0546a322ddf4518e7ee, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: 
+  <ValueType>k__BackingField: 0
+  <BillBoardValues>k__BackingField:
+    <IntValue>k__BackingField: 0
+    <FloatValue>k__BackingField: 0
+    <BoolValue>k__BackingField: 0
+    <StringValue>k__BackingField: 
+    <Vector2Value>k__BackingField: {x: 0, y: 0}
+    <Vector3Value>k__BackingField: {x: 0, y: 0, z: 0}
 --- !u!114 &-5272801999890881201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10,14 +31,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7b972f89235c0546a322ddf4518e7ee, type: 3}
-  m_Name: 
+  m_Name: "Is\uBC14\uBCF4"
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: "\uBC14\uBCF4"
+  <Name>k__BackingField: 
   <ValueType>k__BackingField: 3
-  <IntValue>k__BackingField: 0
-  <FloatValue>k__BackingField: 0
-  <BoolValue>k__BackingField: 0
-  <StringValue>k__BackingField: "\uBC14\uBCF4"
+  <BillBoardValues>k__BackingField:
+    <IntValue>k__BackingField: 0
+    <FloatValue>k__BackingField: 0
+    <BoolValue>k__BackingField: 0
+    <StringValue>k__BackingField: 
+    <Vector2Value>k__BackingField: {x: 0, y: 0}
+    <Vector3Value>k__BackingField: {x: 0, y: 0, z: 0}
 --- !u!114 &-436580768919563687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28,14 +52,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7b972f89235c0546a322ddf4518e7ee, type: 3}
-  m_Name: 
+  m_Name: IsComplete
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: IsComplete
+  <Name>k__BackingField: 
   <ValueType>k__BackingField: 2
-  <IntValue>k__BackingField: 0
-  <FloatValue>k__BackingField: 0
-  <BoolValue>k__BackingField: 0
-  <StringValue>k__BackingField: 
+  <BillBoardValues>k__BackingField:
+    <IntValue>k__BackingField: 0
+    <FloatValue>k__BackingField: 0
+    <BoolValue>k__BackingField: 0
+    <StringValue>k__BackingField: 
+    <Vector2Value>k__BackingField: {x: 0, y: 0}
+    <Vector3Value>k__BackingField: {x: 0, y: 0, z: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,3 +78,48 @@ MonoBehaviour:
   ValueList:
   - {fileID: -436580768919563687}
   - {fileID: -5272801999890881201}
+  - {fileID: 7786611280846295141}
+  - {fileID: -6625649933415510482}
+  - {fileID: 8497161085757934027}
+--- !u!114 &7786611280846295141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7b972f89235c0546a322ddf4518e7ee, type: 3}
+  m_Name: Counter
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: 
+  <ValueType>k__BackingField: 0
+  <BillBoardValues>k__BackingField:
+    <IntValue>k__BackingField: 0
+    <FloatValue>k__BackingField: 0
+    <BoolValue>k__BackingField: 0
+    <StringValue>k__BackingField: 
+    <Vector2Value>k__BackingField: {x: 0, y: 0}
+    <Vector3Value>k__BackingField: {x: 0, y: 0, z: 0}
+--- !u!114 &8497161085757934027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7b972f89235c0546a322ddf4518e7ee, type: 3}
+  m_Name: Fuck
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: 
+  <ValueType>k__BackingField: 5
+  <BillBoardValues>k__BackingField:
+    <IntValue>k__BackingField: 0
+    <FloatValue>k__BackingField: 0
+    <BoolValue>k__BackingField: 0
+    <StringValue>k__BackingField: 
+    <Vector2Value>k__BackingField: {x: 0, y: 0}
+    <Vector3Value>k__BackingField: {x: 0, y: 0, z: 0}

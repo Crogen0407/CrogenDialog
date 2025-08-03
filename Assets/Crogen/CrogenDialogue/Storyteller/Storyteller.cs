@@ -1,3 +1,4 @@
+using Crogen.CrogenDialogue.Billboard;
 using Crogen.CrogenDialogue.UI;
 using UnityEngine;
 
@@ -28,6 +29,11 @@ namespace Crogen.CrogenDialogue
 				return false;
 			}
 
+			for (int i = 0; i < StorytellerBase.Billboard.Count; i++)
+			{
+				StorytellerBase.Billboard[i].SaveDefaultValues();
+			}
+			
 			StorytellerBase.StartNode.Go(this);
 
 			return true;
@@ -36,6 +42,14 @@ namespace Crogen.CrogenDialogue
 		public void SetTalk(string name, string talk)
 		{
 
+		}
+
+		private void OnDestroy()
+		{
+			for (int i = 0; i < StorytellerBase.Billboard.Count; i++)
+			{
+				StorytellerBase.Billboard[i].ReturnToDefault();
+			}
 		}
 	}
 }

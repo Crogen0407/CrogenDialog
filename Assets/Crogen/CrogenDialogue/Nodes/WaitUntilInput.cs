@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Crogen.CrogenDialogue.Nodes
 {
-	[RegisterScript]
+	[CrogenRegisterScript]
 	public class WaitUntilInput : NodeSO
 	{
 		[field: SerializeField] public KeyCode KeyCode { get; private set; } = KeyCode.Space;
