@@ -6,7 +6,7 @@ namespace Crogen.CrogenDialogue.Nodes
 	public abstract class NodeSO : ScriptableObject
 	{
 		[field: SerializeField, HideInEditorWindow] public string GUID { get; set; }
-		[field: SerializeField, HideInEditorWindow] public StorytellerBaseSO StorytellerBaseSO { get; set; }
+		[field: SerializeField, HideInEditorWindow] public StorySO StorySO { get; set; }
 		[field: SerializeField, HideInEditorWindow] public NodeSO[] NextNodes;
 		[field: SerializeField, HideInEditorWindow] public Vector2 Position { get; set; }
 

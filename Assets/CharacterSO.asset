@@ -13,3 +13,48 @@ MonoBehaviour:
   m_Name: CharacterSO
   m_EditorClassIdentifier: 
   <Name>k__BackingField: 
+  <BodyList>k__BackingField:
+  - {fileID: 3472463050796762395}
+  - {fileID: 3835172911726190184}
+--- !u!114 &3472463050796762395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df253bd120220e441b8cadeb7bb368b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <BodyInfo>k__BackingField:
+    name: "\uC138\uC77C\uB7EC"
+    sprite: {fileID: 0}
+  <ClothseList>k__BackingField:
+  - name: 
+    sprite: {fileID: 0}
+  <FaceList>k__BackingField:
+  - name: 
+    sprite: {fileID: 0}
+--- !u!114 &3835172911726190184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df253bd120220e441b8cadeb7bb368b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <BodyInfo>k__BackingField:
+    name: "\uB808\uBC14"
+    sprite: {fileID: 21300000, guid: 9efb82d91ad0e4fdfbf6a09635f9d78d, type: 3}
+  <ClothseList>k__BackingField:
+  - name: "\uB208\uAE54"
+    sprite: {fileID: 21300000, guid: 46e8f61d13f8b49c7b2ac6beb5788f2c, type: 3}
+  <FaceList>k__BackingField:
+  - name: "\uCE58\uC6CC"
+    sprite: {fileID: 21300000, guid: fea84712d555ee04a8147088aad76931, type: 3}

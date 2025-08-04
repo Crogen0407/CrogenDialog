@@ -1,5 +1,8 @@
-﻿namespace Crogen.CrogenDialogue.Nodes.CharacterNodes
+﻿using Crogen.CrogenDialogue.Assets.Crogen.CrogenDialogue.Attributes;
+
+namespace Crogen.CrogenDialogue.Nodes.CharacterNodes
 {
+	[CrogenRegisterScript, NodePath("Character")]
 	public class DisableCharacterNodeSO : CharacterNodeSO
 	{
 		public override string GetNodeName() => "DisableCharacter";

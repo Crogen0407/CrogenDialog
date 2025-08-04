@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Crogen.CrogenDialogue.Character;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Crogen.CrogenDialogue.UI
@@ -6,8 +7,10 @@ namespace Crogen.CrogenDialogue.UI
     public class CharacterPanel : MonoBehaviour
     {
 		private CanvasGroup _canvasGroup;
-		private Image _characterImage;
-		private Image _clothseImage;
+		public CanvasGroup CanvasGroup { get => _canvasGroup ??= GetComponent<CanvasGroup>(); set => _canvasGroup = value; }
+		[SerializeField] private Image _bodyImage;
+		[SerializeField] private Image _clothseImage;
+		[SerializeField] private Image _faceImage;
 
 		private RectTransform _rectTransform;
 		public RectTransform RectTransform 
@@ -19,39 +22,45 @@ namespace Crogen.CrogenDialogue.UI
 			}
 		}
 
-		private void Awake()
-		{
-			AddClothseImage();
-			gameObject.AddComponent(typeof(CanvasRenderer));
-			_canvasGroup = gameObject.AddComponent<CanvasGroup>();
-			_characterImage = gameObject.AddComponent<Image>();
-			_characterImage.preserveAspect = true;
-		}
+		private CharacterBodySO _characterBodySO;
 
-		private void AddClothseImage()
+		public void Initialize(CharacterSO character, string body, string clothse, string face)
 		{
-			_clothseImage = new GameObject("ClothseImage", typeof(CanvasRenderer)).AddComponent<Image>();
-			_clothseImage.rectTransform.SetParent(RectTransform);
-			_clothseImage.rectTransform.anchorMax = Vector2.one;
-			_clothseImage.rectTransform.anchorMin = Vector2.zero;
-			_clothseImage.rectTransform.anchoredPosition = Vector2.zero;
-			_clothseImage.rectTransform.sizeDelta = Vector2.zero;
-			_clothseImage.preserveAspect = true;
+			var bodyData = character.FindBody(body);
+
+			if (bodyData != null)
+				_characterBodySO = bodyData;
+
+			if (_characterBodySO == null) return;
+			_bodyImage.sprite = _characterBodySO.BodyInfo.sprite;
+
+			if (string.IsNullOrEmpty(clothse) == false)
+			{
+				var findSprite = _characterBodySO.FindClothse(clothse)?.sprite;
+				if (findSprite != null)
+					_clothseImage.sprite = findSprite;
+			}
+			if (string.IsNullOrEmpty(face) == false)
+			{
+				var findSprite = _characterBodySO.FindFace(face)?.sprite;
+				if (findSprite != null)
+					_faceImage.sprite = findSprite;
+			}
 		}
 
 		public void SetActive(bool active)
 		{
 			if (active)
 			{
-				_canvasGroup.alpha = 1;
+				CanvasGroup.alpha = 1;
 			}
 			else
 			{
-				_canvasGroup.alpha = 0;
+				CanvasGroup.alpha = 0;
 				StopAllCoroutines();
 			}
-			_canvasGroup.interactable = active;
-			_canvasGroup.blocksRaycasts = active;
+			CanvasGroup.interactable = active;
+			CanvasGroup.blocksRaycasts = active;
 		}
     }
 }

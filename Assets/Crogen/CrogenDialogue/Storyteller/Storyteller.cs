@@ -7,7 +7,7 @@ namespace Crogen.CrogenDialogue
 {
     public class Storyteller : MonoBehaviour
     {
-        [field: SerializeField] public StorytellerBaseSO StorytellerBase { get; private set; }
+        [field: SerializeField] public StorySO StorytellerBase { get; private set; }
 		[field: SerializeField] public bool StartAndGo { get; private set; } = false;
 
 		// UI
@@ -17,7 +17,6 @@ namespace Crogen.CrogenDialogue
 
 		// 강제 대화 완료
 		public bool IsTalkComplete { get => TalkContainer.IsTalkComplete; set => TalkContainer.IsTalkComplete = value; }
-		public bool IsChoiceComplete => ChoiceContainer.IsChoiceComplete;
 		public int ChoiceIndex => ChoiceContainer.ChoiceIndex;
 
 		private void Start()

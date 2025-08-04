@@ -1,0 +1,44 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Crogen/CrogenDialogue/Editor/CharacterPreviewWindows/CharacterPreviewWindow.uss?fileID=7433441132597879392&amp;guid=49fe3a2e858099c43b6cd97f4b052bf6&amp;type=3#CharacterPreviewWindow" />
+    <ui:VisualElement style="background-color: rgb(56, 56, 56); flex-shrink: 1; flex-grow: 1; flex-direction: row;">
+        <ui:VisualElement name="BodyPanel" style="flex-grow: 1; flex-shrink: 1; min-width: 250px; max-width: 250px;">
+            <ui:VisualElement name="TitlePanel" style="background-color: rgb(41, 41, 41); height: 20px; color: rgb(41, 41, 41); flex-direction: row;">
+                <ui:Label text="Body" name="BodyTitle" class="TitleText titleText" />
+                <ui:Button text="New" name="NewBodyButton" style="flex-grow: 1; flex-shrink: 1; font-size: 10px; background-color: rgb(88, 88, 88); color: rgb(255, 255, 255);" />
+                <ui:Button text="Remove" name="RemoveBodyButton" style="flex-grow: 0.1; flex-shrink: 1; font-size: 10px; background-color: rgb(88, 88, 88); color: rgb(255, 255, 255);" />
+            </ui:VisualElement>
+            <ui:ScrollView name="BodyScrollView" class="ScrollView" />
+            <ui:VisualElement name="NoDataPanel" style="flex-grow: 1;">
+                <ui:Label text="No Data" class="titleText" style="flex-grow: 1; flex-shrink: 1; -unity-text-align: middle-center;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Outline" style="background-color: rgb(20, 20, 20); width: 2px;" />
+        <ui:VisualElement style="flex-grow: 1; max-width: 250px; min-width: 250px;">
+            <ui:VisualElement name="ClothsePanel" style="flex-grow: 1; flex-shrink: 1;">
+                <ui:VisualElement name="TitlePanel" style="background-color: rgb(41, 41, 41); height: 20px; flex-direction: row;">
+                    <ui:Label text="Clothse" name="ClothseTitle" class="TitleText titleText" />
+                    <ui:Button text="New" name="NewClothseButton" style="flex-grow: 1; flex-shrink: 1; font-size: 10px; background-color: rgb(88, 88, 88); color: rgb(255, 255, 255);" />
+                    <ui:Button text="Remove" name="RemoveClothseButton" style="flex-grow: 0.1; flex-shrink: 1; font-size: 10px; background-color: rgb(88, 88, 88); color: rgb(255, 255, 255);" />
+                </ui:VisualElement>
+                <ui:ScrollView name="ClothseScrollView" class="ScrollView" />
+                <ui:VisualElement name="NoDataPanel" style="flex-grow: 1;">
+                    <ui:Label text="No Data" class="titleText" style="flex-grow: 1; flex-shrink: 1; -unity-text-align: middle-center;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="Outline" style="background-color: rgb(20, 20, 20); height: 2px;" />
+            <ui:VisualElement name="FacePanel" style="flex-grow: 1; flex-shrink: 1;">
+                <ui:VisualElement name="TitlePanel" style="background-color: rgb(41, 41, 41); height: 20px; flex-direction: row;">
+                    <ui:Label text="Face" name="FaceTitle" class="TitleText titleText" />
+                    <ui:Button text="New" name="NewFaceButton" style="flex-grow: 1; flex-shrink: 1; font-size: 10px; background-color: rgb(88, 88, 88); color: rgb(255, 255, 255);" />
+                    <ui:Button text="Remove" name="RemoveFaceButton" style="flex-grow: 0.1; flex-shrink: 1; font-size: 10px; background-color: rgb(88, 88, 88); color: rgb(255, 255, 255);" />
+                </ui:VisualElement>
+                <ui:ScrollView name="FaceScrollView" class="ScrollView" />
+                <ui:VisualElement name="NoDataPanel" style="flex-grow: 1;">
+                    <ui:Label text="No Data" class="titleText" style="flex-grow: 1; flex-shrink: 1; -unity-text-align: middle-center;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Outline" style="background-color: rgb(20, 20, 20); width: 2px;" />
+        <Crogen.CrogenDialogue.Editor.CharacterPreviewWindows.CharacterPreview />
+    </ui:VisualElement>
+</ui:UXML>

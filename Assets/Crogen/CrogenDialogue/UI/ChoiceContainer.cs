@@ -23,10 +23,15 @@ namespace Crogen.CrogenDialogue
 		public void SetChoices(string[] choices)
         {
 			SetActive(true);
-            for (int i = 0; i < choices.Length; i++)
+			IsChoiceComplete = false;
+			for (int i = 0; i < choices.Length; i++)
             {
-                _choicePanels[i].SetText(choices[i], i);
+				_choicePanels[i].gameObject.SetActive(true);
+				_choicePanels[i].SetText(choices[i], i);
 			}
+
+			for (int i = choices.Length; i < _choicePanels.Length; i++)
+				_choicePanels[i].gameObject.SetActive(false);
 		}
 
 		public void ChoiseSelectComplete(int choiceIndex)

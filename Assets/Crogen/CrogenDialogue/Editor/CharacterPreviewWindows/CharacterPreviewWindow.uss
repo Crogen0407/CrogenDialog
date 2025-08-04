@@ -1,0 +1,61 @@
+.titleText {
+    font-size: 10px;
+    -unity-font-definition: url("project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&guid=e3265ab4bf004d28a9537516768c1c75&type=3#LiberationSans");
+    -unity-text-align: middle-left;
+    color: rgb(156, 156, 156);
+    -unity-font-style: bold;
+    margin-left: 2px;
+    margin-top: 2px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    flex-grow: 1;
+}
+
+.preview {
+    flex-grow: 1;
+    background-image: none;
+    background-size: contain;
+}
+
+.ScrollView {
+    flex-grow: 1;
+}
+
+
+#BodyPanel.no-data #BodyScrollView {
+    display: none;
+}
+
+#BodyPanel.no-data #NoDataPanel {
+    display: flex;
+}
+
+#BodyPanel #NoDataPanel {
+    display: none;
+}
+
+
+#ClothsePanel.no-data #ClothseScrollView {
+    display: none;
+}
+
+#ClothsePanel.no-data #NoDataPanel {
+    display: flex;
+}
+
+#ClothsePanel #NoDataPanel {
+    display: none;
+}
+
+
+#FacePanel.no-data #FaceScrollView {
+    display: none;
+}
+
+#FacePanel.no-data #NoDataPanel {
+    display: flex;
+}
+
+#FacePanel #NoDataPanel {
+    display: none;
+}
